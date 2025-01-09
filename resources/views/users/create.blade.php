@@ -22,7 +22,13 @@
             <label for="password_confirmation" class="block text-sm font-semibold text-gray-700">Confirm Password</label>
             <input type="password" name="password_confirmation" id="password_confirmation" class="w-full p-2 border border-gray-300 rounded" required>
         </div>
-            
+        <div class="mb-4">
+            <label for="is_admin" class="block text-sm font-semibold text-gray-700">Vai trò</label>
+            <select name="is_admin" id="is_admin" class="w-full p-2 border border-gray-300 rounded">
+                <option value="0">Người dùng</option>
+                <option value="1">Admin</option>
+            </select>
+        </div>    
         <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded">Thêm người dùng</button>
     </form>
 </div>

@@ -2,23 +2,25 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Models\User;
+use App\Policies\AdminPolicy;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * The policy mappings for the application.
+     *
+     * @var array
      */
-    public function register(): void
-    {
-        //
-    }
+
 
     /**
-     * Bootstrap any application services.
+     * Register any authentication/authorization services.
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
     }
 }
+

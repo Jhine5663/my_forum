@@ -19,15 +19,19 @@
                         <!-- Hiển thị khi chưa đăng nhập -->
                         <a href="{{ route('login') }}" class="text-white px-4">Đăng nhập</a>
                         <a href="{{ route('register') }}" class="text-white px-4">Đăng ký</a>
-
                     @endguest
         
                     @auth
                         <!-- Hiển thị khi đã đăng nhập -->
                         <span class="text-white px-4">Xin chào, {{ Auth::user()->user_name }}</span>
+
+                        @if (Auth::user()->is_admin)
+                            @can('access-admin')
+                                <a href="/admin" class="text-white px-4">Quản trị</a>
+                            @endcan
+                        @endif
+
                         <a href="/profile" class="text-white px-4">Hồ sơ</a>
-                        <a href="/users" class="text-white px-4">Danh sách người Dùng</a>
-                        <a href="/categories" class="text-white px-4">Danh sách chủ đề</a>
                         <form method="POST" action="/logout">
                             @csrf
                             <button class="text-white px-4">Log Out</button>

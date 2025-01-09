@@ -9,6 +9,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AdminController;
+
 
 Route::get('/', function() {
     return view('home');
@@ -21,7 +23,6 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::get('/profile', [RegisteredUserController::class, 'index'])->middleware('auth');
 Route::get('/profile/edit-profile', [RegisteredUserController::class, 'edit_profile'])->middleware('auth');
 
-Route::resource('users', UserController::class);
 
 Route::get('/login', [SessionController::class, 'create'])->name('login')->middleware('guest');
 Route::post('/login', [SessionController::class, 'store'])->middleware('guest');
@@ -33,3 +34,9 @@ Route::post('threads/{thread}/posts', [PostController::class, 'store'])->name('p
 Route::delete('posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 Route::post('posts/{post}/replies', [ReplyController::class, 'store'])->name('replies.store');
 Route::delete('replies/{reply}', [ReplyController::class, 'destroy'])->name('replies.destroy');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::resource('users', UserController::class);
+});
