@@ -21,6 +21,7 @@ class AdminController extends Controller
             return $next($request);
         });
     }
+
     public function dashboard()
     {
         return view('admin.dashboard', [
@@ -32,3 +33,4 @@ class AdminController extends Controller
         ]);
     }
 }
+

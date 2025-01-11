@@ -20,20 +20,23 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'user_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
+            'is_admin' => 'required|boolean',
         ]);
-
+    
         User::create([
             'user_name' => $request->user_name,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'password' => bcrypt($request->password), 
+            'is_admin' => $request->is_admin,
         ]);
-
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
+    
+        return redirect()->route('users.index')->with('success', 'Tạo người dùng thành công.');
     }
+    
 
     public function edit(User $user)
     {
@@ -43,20 +46,21 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
-            'user_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-        ]);
+            'user_name' => 'required|string|max:255|unique:users,user_name,',
+            'email' => 'required|email|unique:users,email,',
+            'is_admin' => 'required|boolean',
+        ]);    
 
         $user->update($validated);
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('users.index')->with('success', 'Cập nhật người dùng thành công.');
     }
 
     public function destroy(User $user)
     {
         $user->delete();
 
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('users.index')->with('success', 'Xóa người dùng thành công.');
     }
 }
 

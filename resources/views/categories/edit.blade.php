@@ -1,19 +1,42 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Edit Category</h1>
+<div class="container mx-auto p-6 bg-white shadow-md rounded-md">
+    <h1 class="text-2xl font-bold mb-4 text-gray-700">Chỉnh Sửa Thể Loại</h1>
 
-    <form action="{{ route('categories.update', $category) }}" method="POST" class="mt-4">
+    <form action="{{ route('categories.update', $category) }}" method="POST">
         @csrf
         @method('PUT')
+
+        <!-- Tên Thể Loại -->
         <div class="mb-4">
-            <label for="name" class="block text-sm font-medium">Category Name</label>
-            <input type="text" name="name" id="name" value="{{ old('name', $category->name) }}" class="mt-1 block w-full border-gray-300 rounded-md" required>
+            <label for="name" class="block text-sm font-medium text-gray-700">Tên Thể Loại</label>
+            <input type="text" name="name" id="name" value="{{ old('name', $category->name) }}" 
+                   class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
+                   placeholder="Nhập tên thể loại" required>
+            @error('name')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
         </div>
+
+        <!-- Slug -->
         <div class="mb-4">
-            <label for="slug" class="block text-sm font-medium">Slug</label>
-            <input type="text" name="slug" id="slug" value="{{ old('slug', $category->slug) }}" class="mt-1 block w-full border-gray-300 rounded-md" required>
+            <label for="slug" class="block text-sm font-medium text-gray-700">Slug</label>
+            <input type="text" name="slug" id="slug" value="{{ old('slug', $category->slug) }}" 
+                   class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
+                   placeholder="Nhập slug" required>
+            @error('slug')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
         </div>
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Update Category</button>
+
+        <!-- Nút Cập Nhật -->
+        <div class="text-right">
+            <button type="submit" 
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded shadow focus:outline-none focus:ring-2 focus:ring-blue-400">
+                Cập Nhật
+            </button>
+        </div>
     </form>
+</div>
 @endsection

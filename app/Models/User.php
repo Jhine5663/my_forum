@@ -9,7 +9,7 @@ class User extends Authenticatable  // Kế thừa từ Authenticatable
 {
     use HasFactory;
 
-    protected $fillable = ['user_name', 'email', 'password'];
+    protected $fillable = ['user_name', 'email', 'password', 'is_admin'];
     protected $hidden = ['password'];
     protected $casts = [
         'password' => 'hashed',
