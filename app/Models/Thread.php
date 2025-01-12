@@ -9,7 +9,7 @@ class Thread extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'body'];
+    protected $fillable = ['title', 'body', 'category_id', 'user_id'];
 
     public function posts()
     {
@@ -20,8 +20,10 @@ class Thread extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function category() 
     { 
         return $this->belongsTo(Category::class);
     }
 }
+

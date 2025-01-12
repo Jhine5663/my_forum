@@ -2,61 +2,68 @@
 
 @section('content')
 <div class="container mx-auto p-6 bg-white shadow-md rounded-md">
-    <h1 class="text-2xl font-bold mb-4 text-gray-700">Danh sách Thể Loại</h1>
-    
-    <!-- Nút Tạo Mới -->
-    <div class="mb-6 text-right">
+    <h1 class="text-2xl font-bold mb-4 text-gray-700">Danh Sách Thể Loại</h1>
+
+    <!-- Nút Thêm Thể Loại -->
+    <div class="mb-4">
         <a href="{{ route('categories.create') }}" 
-           class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-400">
-            Thêm Thể Loại Mới
+           class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded shadow">
+            Thêm Thể Loại
         </a>
     </div>
 
-    <!-- Danh sách Thể Loại -->
-    @if($categories->isEmpty())
-        <p class="text-gray-500">Chưa có thể loại nào.</p>
-    @else
-        <div class="overflow-hidden rounded-md border border-gray-200 shadow">
-            <table class="min-w-full bg-white">
-                <thead>
-                    <tr class="bg-gray-50">
-                        <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">#</th>
-                        <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Tên Thể Loại</th>
-                        <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Mô Tả</th>
-                        <th class="py-2 px-4 text-center text-sm font-semibold text-gray-600">Trạng Thái</th>
-                        <th class="py-2 px-4 text-right text-sm font-semibold text-gray-600">Hành Động</th>
+    <!-- Bảng Thể Loại -->
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead class="bg-gray-100 border-b">
+                <tr>
+                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">#</th>
+                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Tên Thể Loại</th>
+                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Slug</th>
+                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Trạng Thái</th>
+                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($categories as $category)
+                    <tr class="border-b">
+                        <td class="px-4 py-2 text-sm text-gray-700">{{ $loop->iteration }}</td>
+                        <td class="px-4 py-2 text-sm text-gray-700">
+                            <a href="{{ route('categories.show', $category) }}" class="text-blue-500 hover:text-blue-700">
+                                {{ $category->name }}
+                            </a>
+                        </td>
+                        <td class="px-4 py-2 text-sm text-gray-700">{{ $category->slug }}</td>
+                        <td class="px-4 py-2 text-sm text-gray-700">
+                            @if($category->is_active)
+                                <span class="text-green-600 font-semibold">Hoạt động</span>
+                            @else
+                                <span class="text-red-600 font-semibold">Không hoạt động</span>
+                            @endif
+                        </td>
+                        <td class="px-4 py-2 text-sm text-gray-700">
+                            <a href="{{ route('categories.edit', $category) }}" 
+                               class="text-yellow-500 hover:text-yellow-700">Chỉnh Sửa</a>
+                            <form action="{{ route('categories.destroy', $category) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" 
+                                        class="text-red-500 hover:text-red-700 ml-2"
+                                        onclick="return confirm('Bạn có chắc chắn muốn xóa thể loại này không?');">
+                                    Xóa
+                                </button>
+                            </form>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach($categories as $index => $category)
-                        <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : '' }}">
-                            <td class="py-2 px-4 text-sm text-gray-700">{{ $index + 1 }}</td>
-                            <td class="py-2 px-4 text-sm text-gray-700">{{ $category->name }}</td>
-                            <td class="py-2 px-4 text-sm text-gray-700">{{ $category->description }}</td>
-                            <td class="py-2 px-4 text-center">
-                                <span class="px-2 py-1 text-xs font-medium rounded {{ $category->status ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600' }}">
-                                    {{ $category->status ? 'Kích Hoạt' : 'Vô Hiệu Hóa' }}
-                                </span>
-                            </td>
-                            <td class="py-2 px-4 text-right">
-                                <a href="{{ route('categories.edit', $category) }}" 
-                                   class="text-yellow-500 hover:text-yellow-600 mr-2">
-                                    Sửa
-                                </a>
-                                <form action="{{ route('categories.destroy', $category) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:text-red-600"
-                                            onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
-                                        Xóa
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    @endif
+                @empty
+                    <tr>
+                        <td colspan="5" class="px-4 py-4 text-center text-gray-500">
+                            Không có thể loại nào.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 </div>
 @endsection

@@ -5,13 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Thread;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ThreadController extends Controller
 {
     public function index()
     {
-        $threads = Thread::with('category')->get();
+        $threads = Thread::all();
         return view('threads.index', compact('threads'));
+    }
+    public function show(Thread $thread)
+    {
+        $posts = $thread->posts;
+        return view('threads.show', compact('thread', 'posts'));
     }
 
     public function create()
@@ -28,7 +34,11 @@ class ThreadController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        Thread::create($request->all());
+        $data = $request->only(['title', 'body', 'category_id']);
+        $data['user_id'] = Auth::user()->id; // Lấy ID người dùng hiện tại
+
+        Thread::create($data);
+
         return redirect()->route('threads.index');
     }
 
@@ -46,7 +56,9 @@ class ThreadController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        $thread->update($request->all());
+        $data = $request->only(['title', 'body', 'category_id']);
+        $thread->update($data);
+
         return redirect()->route('threads.index');
     }
 
@@ -56,4 +68,5 @@ class ThreadController extends Controller
         return redirect()->route('threads.index');
     }
 }
+
 

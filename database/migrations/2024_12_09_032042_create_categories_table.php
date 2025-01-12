@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('slug')->unique(); // Slug để tạo URL thân thiện
+            $table->boolean('is_active')->default(true); // Trạng thái: true (sử dụng), false (không sử dụng)
             $table->timestamps();
         });
     }
-// Slug để tạo URL-than-thien
+
     /**
      * Reverse the migrations.
      */

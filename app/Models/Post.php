@@ -9,7 +9,12 @@ class Post extends Model
 {   
     use HasFactory;
     
-    protected $fillable = ['content'];
+    protected $fillable = ['content', 'user_id', 'thread_id'];
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+    
 
     public function thread()
     {

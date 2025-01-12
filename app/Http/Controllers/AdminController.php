@@ -25,12 +25,13 @@ class AdminController extends Controller
     public function dashboard()
     {
         return view('admin.dashboard', [
-            'users' => User::all(),
-            'threads' => Thread::all(),
-            'categories' => Category::all(),
-            'posts' => Post::all(),
-            'replies' => Reply::all(),
+            'userCount' => User::count(),
+            'threadCount' => Thread::count(),
+            'categoryCount' => Category::count(),
+            'postCount' => Post::count(),
+            'replyCount' => Reply::count(),
         ]);
     }
+    
 }
 
