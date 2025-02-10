@@ -6,8 +6,11 @@ use App\Models\Reply;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 class ReplyController extends Controller
 {
+    use AuthorizesRequests;
     public function index()
     {
         $replies = Reply::all();
@@ -34,7 +37,7 @@ class ReplyController extends Controller
             'user_id' => Auth::user()->id,
         ]);
 
-        return redirect()->route('posts.show', $post)
+        return redirect()->route('replies.index', $post)
             ->with('success', 'Bình luận đã được thêm.');
     }
 

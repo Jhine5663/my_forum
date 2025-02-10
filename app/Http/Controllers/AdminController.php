@@ -9,6 +9,8 @@ use App\Models\Post;
 use App\Models\Reply;
 use Illuminate\Support\Facades\Gate;
 
+use Illuminate\Routing\Controller;
+
 class AdminController extends Controller
 {
     public function __construct()
