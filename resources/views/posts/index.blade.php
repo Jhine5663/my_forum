@@ -27,7 +27,7 @@
                 <tr class="border-b">
                     <td class="px-4 py-2 text-sm text-gray-700">{{ $loop->iteration }}</td>
                     <td class="px-4 py-2 text-sm text-gray-700">
-                        <a href="{{ route('posts.show', $post) }}" class="text-blue-500 hover:text-blue-700">
+                        <a href="{{ route('replies.index', $post) }}" class="text-blue-500 hover:text-blue-700">
                             {{ $post->content }}
                         </a>
                     </td>

@@ -23,13 +23,12 @@ class PostController extends Controller
         $replies = $post->replies;
         return view('posts.show', compact('post', 'replies')); 
     }
-    
-    public function create()
-    {
-        $threads = Thread::all();
-        return view('posts.create', compact('threads'));
-    }
 
+    public function create(Thread $thread)
+    {
+        return view('posts.create', compact('thread'));
+    }
+    
     public function store(Request $request)
     {
         $request->validate([

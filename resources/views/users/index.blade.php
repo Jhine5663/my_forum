@@ -28,7 +28,11 @@
                 @forelse($users as $user)
                     <tr class="border-b">
                         <td class="px-4 py-2 text-sm text-gray-700">{{ $loop->iteration }}</td>
-                        <td class="px-4 py-2 text-sm text-gray-700">{{ $user->user_name }}</td>
+                        <td class="px-4 py-2 text-sm text-gray-700">
+                            <a href="{{ route('categories.index', $user) }}" class="text-blue-500 hover:text-blue-700">
+                                {{ $user->user_name }}
+                            </a>
+                        </td>
                         <td class="px-4 py-2 text-sm text-gray-700">{{ $user->email }}</td>
                         <td class="px-4 py-2 text-sm text-gray-700">
                             {{ $user->is_admin ? 'Admin' : 'Thành Viên' }}

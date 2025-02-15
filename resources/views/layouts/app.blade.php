@@ -40,12 +40,9 @@
                 </div>
             </div>
         </nav>
-        
     </header>
-
     <div class="justify-center h-screen">
         @yield('content')
     </div>
-
 </body>
 </html>

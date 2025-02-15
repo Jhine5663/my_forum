@@ -29,7 +29,7 @@
                     <tr class="border-b">
                         <td class="px-4 py-2 text-sm text-gray-700">{{ $loop->iteration }}</td>
                         <td class="px-4 py-2 text-sm text-gray-700">
-                            <a href="{{ route('categories.show', $category) }}" class="text-blue-500 hover:text-blue-700">
+                            <a href="{{ route('threads.index', $category) }}" class="text-blue-500 hover:text-blue-700">
                                 {{ $category->name }}
                             </a>
                         </td>
