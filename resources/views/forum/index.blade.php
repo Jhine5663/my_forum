@@ -8,7 +8,6 @@
         <ul class="space-y-3">
             @foreach ($categories as $category)
                 <li>
-                    {{-- {{ route('categories.threads', $category->id) }} --}}
                     <a href="#" 
                        class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-md transition">
                         {{ $category->name }} 
@@ -31,6 +30,7 @@
                 </a>
             @endauth
         </div>
+        
 
         <!-- Danh sách chủ đề mới nhất -->
         <div class="bg-white p-5 rounded-lg shadow-lg">
@@ -40,7 +40,7 @@
                     <li class="py-4 flex justify-between items-center">
                         <div>
                             <h3 class="text-lg font-semibold text-gray-800">
-                                <a href="{{ route('forum.thread_show') }}">{{ $thread->title }}</a>             
+                                <a href="{{ route('threads.show', $thread->id) }}" class="hover:text-blue-600">{{ $thread->title }}</a>
                             </h3>                            
                             <p class="text-sm text-gray-500">📁 {{ $thread->category->name }} - ✍ {{ $thread->user->user_name }}</p>
                         </div>
@@ -60,7 +60,7 @@
                     @forelse ($category->threads->take(5) as $thread)
                         <div class="border-b pb-3 mb-3 last:border-none last:mb-0">
                             <h3 class="text-lg font-semibold text-gray-800">
-                                <a href="{{ route('forum.thread_show') }}">{{ $thread->title }}</a>
+                                <a href="{{ route('threads.show', $thread->id) }}" class="hover:text-blue-600">{{ $thread->title }}</a>
                             </h3>
                             <p class="text-sm text-gray-500">📝 Bài viết: {{ $thread->posts->count() }}</p>
                         </div>

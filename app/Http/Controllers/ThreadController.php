@@ -14,11 +14,12 @@ class ThreadController extends Controller
         $threads = Thread::all();
         return view('threads.index', compact('threads'));
     }
-    public function show(Thread $thread)
+    public function show($id)
     {
-        $posts = $thread->posts;
-        return view('threads.show', compact('thread', 'posts'));
+        $thread = Thread::with(['posts.user', 'category', 'user'])->findOrFail($id);
+        return view('threads.show', compact('thread'));
     }
+    
 
     public function create()
     {
@@ -67,6 +68,7 @@ class ThreadController extends Controller
         $thread->delete();
         return redirect()->route('threads.index');
     }
+    
 }
 
 

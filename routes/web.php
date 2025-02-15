@@ -7,11 +7,10 @@ use App\Http\Controllers\{
     CategoryController, AdminController, ForumController
 };
 
-// // 🌍 Trang chủ
-// Route::get('/', [ForumController::class, 'index'])->name('home');
-// Trang chủ diễn đàn
+// 🌍 Trang chủ
+
 Route::get('/', [ForumController::class, 'index'])->name('forum.index');
-Route::get('/threads/{thread}', [ForumController::class, 'showThread'])->name('forum.thread_show');
+Route::get('/threads/{thread}', [ForumController::class, 'showThread'])->name('forum.thread');
 
 // 📌 Quản lý danh mục & chủ đề
 Route::resource('categories', CategoryController::class);
@@ -24,9 +23,7 @@ Route::get('/threads', [ThreadController::class, 'index'])->name('threads.index'
 
 // 📌 Quản lý bài viết (Posts)
 Route::middleware('auth')->group(function () {
-    Route::resource('posts', PostController::class)->except(['index', 'create', 'store']);
-    Route::get('/threads/{thread}/posts/create', [PostController::class, 'create'])->name('posts.create');
-    Route::post('/threads/{thread}/posts', [PostController::class, 'store'])->name('posts.store');
+    Route::resource('posts', PostController::class)->except(['index', 'store']);
 });
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 
@@ -50,11 +47,10 @@ Route::middleware('auth')->group(function () {
 });
 
 // 📌 Quản lý người dùng
-Route::middleware('auth')->group(function () {
-    Route::resource('users', UserController::class)->except(['create', 'store', 'show']);
+Route::middleware(['auth'])->group(function () {
+    Route::resource('users', UserController::class);
 });
-
-// 📌 Quản trị viên
-Route::middleware('auth')->prefix('admin')->group(function () {
+Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 });
+
