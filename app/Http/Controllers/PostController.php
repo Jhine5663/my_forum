@@ -24,9 +24,10 @@ class PostController extends Controller
         return view('posts.show', compact('post', 'replies')); 
     }
 
-    public function create(Thread $thread)
+    public function create()
     {
-        return view('posts.create', compact('thread'));
+        $threads = Thread::all(); // hoặc Thread::where('is_admin', false)->get(); nếu chỉ muốn hiển thị chủ đề thường
+        return view('posts.create', compact('threads'));
     }
     
     public function store(Request $request)

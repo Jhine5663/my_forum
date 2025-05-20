@@ -16,31 +16,49 @@ class ThreadController extends Controller
     }
     public function show($id)
     {
-        $thread = Thread::with(['posts.user', 'category', 'user'])->findOrFail($id);
-        return view('threads.show', compact('thread'));
+        $thread = Thread::with([
+            'posts.user',
+            'posts.replies.user',
+            'category',
+            'user'
+        ])->findOrFail($id);
+        
+        // Lấy danh sách threads mới nhất
+        $threads = Thread::latest()->take(5)->get();
+        
+        return view('threads.show', compact('thread', 'threads'));
     }
     
 
     public function create()
     {
+        $this->authorize('createAsAdmin', Thread::class);
+        
         $categories = Category::all();
         return view('threads.create', compact('categories'));
     }
+    
 
     public function store(Request $request)
     {
-        $request->validate([
+        $this->authorize('createAsAdmin', Thread::class);
+        
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'body' => 'required|string',
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        $data = $request->only(['title', 'body', 'category_id']);
-        $data['user_id'] = Auth::user()->id; // Lấy ID người dùng hiện tại
+        $thread = Thread::create([
+            'title' => $validated['title'],
+            'body' => $validated['body'],
+            'category_id' => $validated['category_id'],
+            'user_id' => Auth::user()->id,
+            'is_admin' => true,
+        ]);
 
-        Thread::create($data);
-
-        return redirect()->route('threads.index');
+        return redirect()->route('threads.show', $thread)
+            ->with('success', 'Chủ đề admin đã được tạo thành công.');
     }
 
     public function edit(Thread $thread)

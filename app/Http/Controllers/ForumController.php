@@ -55,4 +55,29 @@ class ForumController extends Controller
 
         return redirect()->back();
     }
+
+    public function createThread()
+    {
+        $categories = Category::all();
+        return view('forum.threads.create', compact('categories'));
+    }
+
+    public function storeThread(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        $thread = Thread::create([
+            'title' => $validated['title'],
+            'body' => $validated['body'],
+            'category_id' => $validated['category_id'],
+            'user_id' => Auth::id(),
+        ]);
+
+        return redirect()->route('forum.thread', $thread)
+            ->with('success', 'Chủ đề đã được tạo thành công.');
+    }
 }
