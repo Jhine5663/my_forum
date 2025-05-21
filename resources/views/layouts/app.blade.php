@@ -145,6 +145,7 @@
         @include('components.sidebar')
         <!-- Main Content Area -->
         @yield('content')
+        
     </div>
     <!-- Footer -->
     @include('layouts.footer')

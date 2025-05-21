@@ -6,43 +6,49 @@ use App\Models\Thread;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ThreadController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('manage-threads')) {
+                abort(403, 'Bạn không có quyền quản lý chủ đề.');
+            }
+            return $next($request);
+        })->except(['index', 'show']);
+    }
+
     public function index()
     {
-        $threads = Thread::all();
+        $threads = Thread::with('user')->paginate(10);
         return view('threads.index', compact('threads'));
     }
-    public function show($id)
+    public function show(Thread $thread)
     {
-        $thread = Thread::with([
-            'posts.user',
-            'posts.replies.user',
-            'category',
-            'user'
-        ])->findOrFail($id);
-        
-        // Lấy danh sách threads mới nhất
-        $threads = Thread::latest()->take(5)->get();
-        
-        return view('threads.show', compact('thread', 'threads'));
+        if (!$thread->is_active) {
+            abort(404, 'Chủ đề không hoạt động.');
+        }
+        $thread->load(['posts.user', 'posts.replies.user', 'category', 'user']);
+        $latestThreads = Thread::latest()->take(5)->get();
+        return view('threads.show', compact('thread', 'latestThreads'));
     }
-    
 
     public function create()
     {
         $this->authorize('createAsAdmin', Thread::class);
-        
+
         $categories = Category::all();
         return view('threads.create', compact('categories'));
     }
-    
+
 
     public function store(Request $request)
     {
         $this->authorize('createAsAdmin', Thread::class);
-        
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'body' => 'required|string',
@@ -83,10 +89,10 @@ class ThreadController extends Controller
 
     public function destroy(Thread $thread)
     {
+        if ($thread->posts()->exists()) {
+            return redirect()->route('threads.index')->with('error', 'Không thể xóa chủ đề vì còn chứa bài viết.');
+        }
         $thread->delete();
-        return redirect()->route('threads.index');
+        return redirect()->route('threads.index')->with('success', 'Chủ đề đã được xóa.');
     }
-    
 }
-
-

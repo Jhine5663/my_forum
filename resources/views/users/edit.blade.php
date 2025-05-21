@@ -1,48 +1,42 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto p-4">
-    <h1 class="text-3xl font-bold mb-4 text-gray-800">Chỉnh sửa người dùng</h1>
-    
-    <form action="{{ route('users.update', $user->id) }}" method="POST" class="bg-white p-6 rounded-lg shadow-md">
+<div class="max-w-xl mx-auto p-6 bg-white rounded-lg shadow">
+    <h2 class="text-2xl font-bold mb-4">Chỉnh sửa hồ sơ</h2>
+
+    @if(session('success'))
+        <div class="bg-green-100 text-green-700 p-2 rounded mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <form action="{{ route('users.update', $user->id) }}" method="POST" class="space-y-4">
         @csrf
         @method('PUT')
 
-        <div class="mb-4">
-            <label for="user_name" class="block text-sm font-semibold text-gray-700">Tên người dùng</label>
-            <input type="text" name="user_name" id="user_name" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('user_name', $user->user_name) }}" required>
+        <div>
+            <label for="user_name" class="block font-semibold">Tên người dùng:</label>
+            <input type="text" id="user_name" name="user_name" value="{{ old('user_name', $user->user_name) }}"
+                class="w-full p-2 border rounded">
             @error('user_name')
-            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
 
-        <div class="mb-4">
-            <label for="email" class="block text-sm font-semibold text-gray-700">Email</label>
-            <input type="email" name="email" id="email" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('email', $user->email) }}" required>
+        <div>
+            <label for="email" class="block font-semibold">Email:</label>
+            <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}"
+                class="w-full p-2 border rounded">
             @error('email')
-            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
 
-        <div class="mb-4">
-            <label for="password" class="block text-sm font-semibold text-gray-700">Mật khẩu (Không thay đổi nếu để trống)</label>
-            <input type="password" name="password" id="password" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <div class="flex justify-end">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                Cập nhật
+            </button>
         </div>
-
-        <div class="mb-4">
-            <label for="password_confirmation" class="block text-sm font-semibold text-gray-700">Xác nhận mật khẩu</label>
-            <input type="password" name="password_confirmation" id="password_confirmation" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-
-        <div class="mb-4">
-            <label for="is_admin" class="block text-sm font-semibold text-gray-700">Vai trò</label>
-            <select name="is_admin" id="is_admin" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                <option value="0" {{ old('is_admin', $user->is_admin) == 0 ? 'selected' : '' }}>Người dùng</option>
-                <option value="1" {{ old('is_admin', $user->is_admin) == 1 ? 'selected' : '' }}>Admin</option>
-            </select>
-        </div>        
-
-        <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 transition duration-300">Cập nhật người dùng</button>
     </form>
 </div>
 @endsection

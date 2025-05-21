@@ -13,31 +13,28 @@ class ReplyController extends Controller
     use AuthorizesRequests;
     public function index()
     {
-        $replies = Reply::all();
+        $replies = Reply::with('post')->paginate(10);
         return view('replies.index', compact('replies'));
     }
     public function create()
     {
-        $posts = Post::all();
+        $posts = Post::pluck('id');
         return view('replies.create', compact('posts'));
     }
-
-    public function store(Request $request, Reply $reply)
+    public function store(Request $request)
     {
-        $this->authorize('create', $reply);
         $request->validate([
-            'comment' => 'required|string|max:1000',
+            'content' => 'required|string|min:10|max:1000',
             'post_id' => 'required|exists:posts,id',
         ]);
 
-        $post = Post::find($request->input('post_id'));
-
+        $post = Post::findOrFail($request->post_id);
         $post->replies()->create([
-            'comment' => $request->input('comment'),
-            'user_id' => Auth::user()->id,
+            'content' => $request->content,
+            'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('replies.index', $post)
+        return redirect()->route('threads.show', $post->thread)
             ->with('success', 'Bình luận đã được thêm.');
     }
 
@@ -50,22 +47,20 @@ class ReplyController extends Controller
     {
         $this->authorize('update', $reply);
         $request->validate([
-            'comment' => 'required|string',
+            'content' => 'required|string|min:10|max:1000',
         ]);
 
-        $reply->update([
-            'comment' => $request->input('comment'),
-        ]);
+        $reply->update(['content' => $request->content]);
 
-        return redirect()->route('replies.index', $reply->post)
+        return redirect()->route('threads.show', $reply->post->thread)
             ->with('success', 'Bình luận đã được cập nhật.');
     }
 
     public function destroy(Reply $reply)
     {
         $this->authorize('delete', $reply);
+        $thread = $reply->post->thread;
         $reply->delete();
-        return redirect()->route('replies.index')
-            ->with('success', 'Bình luận đã được xóa.');
-    }    
+        return redirect()->route('threads.show', $thread)->with('success', 'Bình luận đã được xóa.');
+    }
 }
