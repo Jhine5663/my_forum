@@ -34,16 +34,17 @@ class AdminController extends Controller
         if (!view()->exists('admin.dashboard')) {
             abort(404, 'Không tìm thấy giao diện admin.');
         }
-        $stats = Cache::remember('admin_stats', 3600, function () {
-            return [
-                'userCount' => User::count(),
-                'threadCount' => Thread::count(),
-                'categoryCount' => Category::count(),
-                'postCount' => Post::count(),
-                'replyCount' => Reply::count(),
-            ];
-        });
+
+        $stats = [
+            'userCount' => User::count(),
+            'threadCount' => Thread::count(),
+            'categoryCount' => Category::count(),
+            'postCount' => Post::count(),
+            'replyCount' => Post::count(), 
+        ];
+
         $recentPosts = Post::with('user')->latest()->take(5)->get();
+
         return view('admin.dashboard', array_merge($stats, ['recentPosts' => $recentPosts]));
     }
 }

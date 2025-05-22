@@ -1,10 +1,9 @@
-@extends('layouts.app')
-
-@section('content')
+@extends('layouts.forum')
+@section('forum-content')
     <div class="flex-1 p-6">
-        <h1 class="text-2xl font-bold pixel-font text-blue-400 glow-text mb-4">Chủ đề của {{ $user->user_name }}</h1>
+        <h1 class="text-2xl font-bold pixel-font text-blue-400 glow-text mb-4">Danh sách chủ đề</h1>
         @if($threads->isEmpty())
-            <p class="text-gray-500">Người dùng này chưa tạo chủ đề nào.</p>
+            <p class="text-gray-500">Chưa có chủ đề nào.</p>
         @else
             <div class="space-y-4">
                 @foreach($threads as $thread)

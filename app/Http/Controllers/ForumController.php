@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Thread;
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,7 +19,14 @@ class ForumController extends Controller
     {
         $categories = Category::with(['threads' => fn($query) => $query->latest()->take(5)])->get();
         $latestThreads = Thread::latest()->take(5)->get();
-        return view('forum.index', compact('categories', 'latestThreads'));
+        return view('forum.index', [
+            'categories' => Category::all(),
+            'latestThreads' => $latestThreads,
+            'userCount' => User::count(),
+            'threadCount' => Thread::count(),
+            'postCount' => Post::count(),
+        ]);
+        
     }
 
     public function showThread(Thread $thread)

@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     ThreadController, PostController, ReplyController,
     RegisteredUserController, SessionController, UserController,
-    CategoryController, AdminController, ForumController, ProfileController
+    CategoryController, AdminController, ForumController, ProfileController,
+    NewsletterController, SearchController
 };
 
 // Public routes
@@ -69,6 +70,38 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
 });
 
 // Machine learning routes (placeholder)
-// Route::middleware('auth')->group(function () {
-//     Route::get('/posts/{post}/suggestions', [ForumController::class, 'getSuggestions'])->name('posts.suggestions');
-// });
+Route::middleware('auth')->group(function () {
+    Route::get('/posts/{post}/suggestions', [ForumController::class, 'getSuggestions'])->name('posts.suggestions');
+});
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::get('/search', [SearchController::class, 'search'])->name('search.results');
+
+use Illuminate\Support\Facades\File;
+
+Route::get('/debug/view-tree', function () {
+    function listViews($dir, $prefix = '')
+    {
+        $tree = '';
+        $files = File::files($dir);
+        $directories = File::directories($dir);
+
+        foreach ($files as $file) {
+            if (str_ends_with($file->getFilename(), '.blade.php')) {
+                $tree .= $prefix . '├── ' . $file->getFilename() . PHP_EOL;
+            }
+        }
+
+        foreach ($directories as $directory) {
+            $folderName = basename($directory);
+            $tree .= $prefix . '├── ' . $folderName . '/' . PHP_EOL;
+            $tree .= listViews($directory, $prefix . '│   ');
+        }
+
+        return $tree;
+    }
+
+    $viewsPath = resource_path('views');
+    $treeOutput = listViews($viewsPath);
+
+    return "<pre>$treeOutput</pre>";
+});

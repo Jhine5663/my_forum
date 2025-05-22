@@ -3,38 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    @vite('resources/css/app.css') <!-- Dùng Tailwind CSS -->
+    <title>Admin - Game 2D Forum</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .pixel-font { font-family: 'Press Start 2P', cursive; }
+        .glow-text { text-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
+        .game-card { transition: transform 0.2s; }
+        .game-card:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
+        .pixel-btn { background-image: linear-gradient(to right, #3b82f6, #60a5fa); }
+        .pixel-btn:hover { background-image: linear-gradient(to right, #2563eb, #3b82f6); }
+    </style>
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
 </head>
-<body class="bg-gray-100 font-sans">
-    <div class="flex min-h-screen">
-        <!-- Sidebar -->
-        <aside class="w-64 bg-blue-700 text-white">
-            <div class="p-6">
-                <h1 class="text-2xl font-bold">Admin Panel</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li class="px-4 py-2 hover:bg-blue-800">
-                        <a href="/users">Quản lý Người dùng</a>
-                    </li>
-                    <li class="px-4 py-2 hover:bg-blue-800">
-                        <a href="/categories">Quản lý Thể loại</a>
-                    </li>
-                    <li class="px-4 py-2 hover:bg-blue-800">
-                        <a href="/threads">Quản lý Chủ đề</a>
-                    </li>
-                    <li class="px-4 py-2 hover:bg-blue-800">
-                        <a href="/posts">Quản lý Bài viết</a>
-                    </li>
-                </ul>
-            </nav>
+<body class="bg-gray-900 text-gray-300">
+    <x-header />
+    <div class="container mx-auto px-4 py-6 flex">
+        <aside class="w-64 bg-gray-800 p-4 rounded-lg shadow-md border border-blue-500/20 mr-4">
+            <h2 class="text-lg font-bold pixel-font text-blue-400 glow-text mb-4">Admin Menu</h2>
+            <ul class="space-y-2">
+                <li><a href="{{ route('admin.dashboard') }}" class="text-blue-400 hover:underline">Bảng điều khiển</a></li>
+                <li><a href="{{ route('users.index') }}" class="text-blue-400 hover:underline">Người dùng</a></li>
+                <li><a href="{{ route('categories.index') }}" class="text-blue-400 hover:underline">Danh mục</a></li>
+                <li><a href="{{ route('admin.threads.index') }}" class="text-blue-400 hover:underline">Chủ đề</a></li>
+                <li><a href="{{ route('posts.index') }}" class="text-blue-400 hover:underline">Bài viết</a></li>
+                <li><a href="{{ route('replies.index') }}" class="text-blue-400 hover:underline">Bình luận</a></li>
+            </ul>
         </aside>
-
-        <!-- Main Content -->
-        <main class="flex-1 p-6">
-            @yield('content')
+        <main class="flex-1">
+            <x-notification />
+            @yield('admin-content')
         </main>
     </div>
+    <x-footer />
 </body>
 </html>
