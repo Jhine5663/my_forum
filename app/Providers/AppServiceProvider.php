@@ -24,8 +24,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->registerPolicies();
-        View::composer('components.sidebar', function ($view) {
+        View::composer('*', function ($view) {
             $view->with([
                 'categories'  => Category::all(),
                 'userCount'   => User::count(),
@@ -35,4 +34,3 @@ class AuthServiceProvider extends ServiceProvider
         });
     }
 }
-

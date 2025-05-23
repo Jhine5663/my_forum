@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Reply;
 use App\Models\Thread;
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -37,16 +39,28 @@ class PostController extends Controller
     public function show(Post $post)
     {
         $replies = $post->replies;
-        return view('forum.posts.show', compact('post', 'replies'));
+        if (request()->routeIs('admin.*')) {
+            $view = 'admin.posts.show';
+        } else {
+            $view = 'forum.posts.show';
+        }
+        return view($view, compact('post', 'replies'));
     }
 
     public function create(Thread $thread)
     {
+        $categories = Category::all();
         if (request()->routeIs('admin.*')) {
             $threads = Thread::all();
             return view('admin.posts.create', compact('threads'));
         }
-        return view('forum.posts.create', compact('thread'));
+        return view('forum.posts.create', [
+            'thread' => $thread,
+            'categories' => $categories,
+            'userCount' => User::count(),
+            'threadCount' => Thread::count(),
+            'postCount' => Post::count(),
+        ]);
     }
 
     public function store(Request $request)

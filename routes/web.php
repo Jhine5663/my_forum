@@ -10,7 +10,8 @@ use App\Http\Controllers\{
 
 // Public routes
 Route::get('/', [ForumController::class, 'index'])->name('forum.index');
-Route::get('/threads/{thread}', [ForumController::class, 'showThread'])->name('threads.show');
+Route::get('/forum/threads/{thread}', [ForumController::class, 'showThread'])->name('forum.threads.show');
+
 
 // Authentication routes
 Route::middleware('guest')->group(function () {
@@ -45,6 +46,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/threads/{thread}/posts/create', [PostController::class, 'create'])->name('posts.create');
         Route::post('/threads/{thread}/posts', [PostController::class, 'store'])->name('posts.store');
         Route::post('/posts/{post}/replies', [ReplyController::class, 'store'])->name('replies.store');
+        Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
     });
 
     // Resource routes

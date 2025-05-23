@@ -7,7 +7,7 @@
             <ul class="space-y-2">
                 @foreach($categories as $category)
                     <li>
-                        <a href="{{ route('categories.show', $category) }}" class="text-blue-400 hover:underline flex items-center">
+                        <a href="{{ route('forum.categories.show', $category) }}" class="text-blue-400 hover:underline flex items-center">
                             <i class="fas fa-folder mr-2"></i> {{ $category->name }}
                         </a>
                     </li>

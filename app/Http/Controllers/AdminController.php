@@ -17,21 +17,13 @@ class AdminController extends Controller
 {
     public function __construct()
     {
-        // Kiểm tra quyền admin cho tất cả các method
         $this->middleware(function ($request, $next) {
             $this->middleware('auth');
             $this->middleware('admin');
-            // if (!Auth::check()) {
-            //     return redirect()->route('login')->with('error', 'Vui lòng đăng nhập.');
-            // }
-            // if (Gate::denies('access-admin')) {
-            //     abort(403, 'Bạn không có quyền truy cập trang này.');
-            // }
+
             return $next($request);
         });
-        // if (!Auth::user()->is_admin) {
-        //     abort(403, 'Bạn không phải quản trị viên.');
-        // }
+
     }
 
     public function dashboard()

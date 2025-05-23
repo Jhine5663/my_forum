@@ -4,7 +4,7 @@
         <h1 class="text-2xl font-bold pixel-font text-blue-400 glow-text mb-4">{{ $thread->title }}</h1>
         <div class="bg-gray-800 p-4 rounded-lg shadow-md border border-blue-500/20 mb-4">
             <p class="text-white">Đăng bởi {{ $thread->user->user_name }} trong
-                <a href="{{ route('categories.show', $thread->category) }}" class="text-blue-400 hover:underline">{{ $thread->category->name }}</a>
+                >{{ $thread->category->name }}</a>
             </p>
             <p class="text-sm text-gray-400">Ngày đăng: {{ $thread->created_at->format('d/m/Y') }}</p>
         </div>

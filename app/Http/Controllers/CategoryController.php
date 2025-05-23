@@ -25,10 +25,6 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        if (!$category->is_active) {
-            abort(404, 'Danh mục không hoạt động.');
-        }
-        
         $threads = $category->threads()->paginate(10);
         return view('forum.categories.show', compact('category', 'threads'));
     }

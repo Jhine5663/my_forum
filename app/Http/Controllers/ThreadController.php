@@ -26,11 +26,10 @@ class ThreadController extends Controller
     }
     public function show(Thread $thread)
     {
-        if (!$thread->is_active) {
-            abort(404, 'Chủ đề không hoạt động.');
-        }
-        $thread->load(['posts.user', 'posts.replies.user', 'category', 'user']);
         $latestThreads = Thread::latest()->take(5)->get();
+        if (request()->routeIs('admin.*')) {
+            return view('admin.threads.show', compact('thread', 'latestThreads'));
+        }
         return view('forum.threads.show', compact('thread', 'latestThreads'));
     }
 
@@ -40,7 +39,12 @@ class ThreadController extends Controller
         if (request()->routeIs('admin.*')) {
             return view('admin.threads.create', compact('categories'));
         }
-        return view('forum.threads.create', compact('categories'));
+        return view('forum.threads.create', [
+            'categories' => $categories,
+            'userCount' => \App\Models\User::count(),
+            'threadCount' => \App\Models\Thread::count(),
+            'postCount' => \App\Models\Post::count(),
+        ]);
     }
 
     public function store(Request $request)

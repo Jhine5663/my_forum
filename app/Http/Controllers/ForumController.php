@@ -26,26 +26,19 @@ class ForumController extends Controller
             'threadCount' => Thread::count(),
             'postCount' => Post::count(),
         ]);
-        
     }
+    public function showThread(Thread $thread)
+    {
+        $categories = Category::all();
+        $posts = $thread->posts()->with('user')->paginate(10);
 
-    // public function showThread(Thread $thread)
-    // {
-    //     $thread->load(['posts.user', 'posts.replies' => fn($query) => $query->latest()->take(10)]);
-    //     return view('forum.thread', compact('thread'));
-    // }
-
-    // public function storeReply(Request $request, Post $post)
-    // {
-    //     $request->validate([
-    //         'content' => 'required|string|min:10|max:3000|not_regex:/^\s*$/',
-    //     ]);
-
-    //     $post->replies()->create([
-    //         'content' => $request->content,
-    //         'user_id' => Auth::id(),
-    //     ]);
-
-    //     return redirect()->route('threads.show', $post->thread)->with('success', 'Bình luận đã được thêm.');
-    // }
+        return view('forum.threads.show', [
+            'thread' => $thread,
+            'posts' => $posts,
+            'categories' => $categories,
+            'userCount' => User::count(),
+            'threadCount' => Thread::count(),
+            'postCount' => Post::count(),
+        ]);
+    }
 }
