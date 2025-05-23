@@ -16,20 +16,3 @@
     </div>
 @endsection
 
-@extends('layouts.auth')
-@section('auth-content')
-    <div class="w-full max-w-md bg-gray-800 p-10 rounded-lg shadow-lg border border-blue-500/20 mx-auto mt-10">
-        <h2 class="text-2xl font-bold pixel-font text-blue-400 glow-text mb-6">Đăng Ký</h2>
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
-            <x-form-input name="user_name" label="Tên người dùng" required />
-            <x-form-input name="email" label="Email" type="email" required />
-            <x-form-input name="password" label="Mật khẩu" type="password" required />
-            <x-form-input name="password_confirmation" label="Xác nhận mật khẩu" type="password" required />
-            <div class="flex items-center justify-between mt-4">
-                <x-form-button label="Đăng Ký" />
-                <a href="{{ route('login') }}" class="text-blue-400 hover:underline">Đăng nhập</a>
-            </div>
-        </form>
-    </div>
-@endsection

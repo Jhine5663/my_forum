@@ -5,8 +5,9 @@
         <form action="{{ route('categories.store') }}" method="POST">
             @csrf
             <x-form-input name="name" label="Tên danh mục" :value="old('name')" required />
-            <x-form-input name="slug" label="Slug" :value="old('slug')" required />
+            <x-form-input name="slug" label="Slug" :value="old('slug')" />
             <div class="mb-4">
+                {{-- <input type="hidden" name="is_active" value="0"> --}}
                 <label for="is_active" class="block text-gray-300 font-bold mb-2">Hoạt động</label>
                 <input type="checkbox" name="is_active" id="is_active" value="1" {{ old('is_active') ? 'checked' : 'checked' }} class="rounded bg-gray-700 text-blue-500 focus:ring-blue-500">
             </div>

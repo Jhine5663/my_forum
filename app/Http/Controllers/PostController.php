@@ -16,31 +16,39 @@ class PostController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware(function ($request, $next) {
-            $this->authorizeResource(Post::class, 'post');
-            return $next($request);
-        })->except(['index', 'show']);
+        $this->middleware('admin');
     }
     public function index()
     {
-        if (!view()->exists('posts.index')) {
-            abort(404, 'Không tìm thấy giao diện.');
-        }
         $posts = Post::with('user')->paginate(10);
-        return view('posts.index', compact('posts'));
+
+        if (request()->routeIs('admin.*')) {
+            $view = 'admin.posts.index';
+        } else {
+            $view = 'forum.posts.index';
+        }
+
+        if (!view()->exists($view)) {
+            abort(404, 'Không tìm thấy bài viết.');
+        }
+        return view($view, compact('posts'));
     }
 
     public function show(Post $post)
     {
         $replies = $post->replies;
-        return view('posts.show', compact('post', 'replies'));
+        return view('forum.posts.show', compact('post', 'replies'));
     }
 
-    public function create()
+    public function create(Thread $thread)
     {
-        $threads = Thread::where('is_active', true)->pluck('title', 'id');
-        return view('posts.create', compact('threads'));
+        if (request()->routeIs('admin.*')) {
+            $threads = Thread::all();
+            return view('admin.posts.create', compact('threads'));
+        }
+        return view('forum.posts.create', compact('thread'));
     }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -54,15 +62,22 @@ class PostController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('threads.show', $post->thread)
+        if (request()->routeIs('admin.*')) {
+            return redirect()->route('admin.posts.index')
+                ->with('success', 'Bài viết đã được thêm thành công.');
+        }
+        return redirect()->route('forum.threads.show', $post->thread)
             ->with('success', 'Bài viết đã được thêm thành công.');
     }
 
-
     public function edit(Post $post)
     {
-        $thread = $post->thread; // Truyền chủ đề tương ứng của bài viết
-        return view('posts.edit', compact('post', 'thread'));
+        $thread = $post->thread; 
+        if (request()->routeIs('admin.*')) {
+            $threads = Thread::all();
+            return view('admin.posts.edit', compact('post', 'threads'));
+        }
+        return view('forum.posts.edit', compact('post', 'thread'));
     }
 
     public function update(Request $request, Post $post)
@@ -72,16 +87,22 @@ class PostController extends Controller
         ]);
 
         $post->update(['content' => $request->content]);
-
-        return redirect()->route('threads.show', $post->thread)
+        if (request()->routeIs('admin.*')) {
+            return redirect()->route('admin.posts.index')
+                ->with('success', 'Bài viết đã được cập nhật thành công.');
+        }
+        return redirect()->route('forum.threads.show', $post->thread)
             ->with('success', 'Bài viết đã được cập nhật thành công.');
     }
 
     public function destroy(Post $post)
     {
-        $this->authorize('delete', $post); // Chỉ người tạo bài viết mới có quyền xóa
         $post->delete();
-        return redirect()->route('posts.index')
+        if (request()->routeIs('admin.*')) {
+            return redirect()->route('admin.posts.index')
+                ->with('success', 'Bài viết đã được xóa thành công.');
+        }
+        return redirect()->route('forum.posts.index')
             ->with('success', 'Bài viết đã được xóa thành công.');
     }
 }

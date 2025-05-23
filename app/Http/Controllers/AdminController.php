@@ -19,14 +19,19 @@ class AdminController extends Controller
     {
         // Kiểm tra quyền admin cho tất cả các method
         $this->middleware(function ($request, $next) {
-            if (!Auth::check()) {
-                return redirect()->route('login')->with('error', 'Vui lòng đăng nhập.');
-            }
-            if (Gate::denies('access-admin')) {
-                abort(403, 'Bạn không có quyền truy cập trang này.');
-            }
+            $this->middleware('auth');
+            $this->middleware('admin');
+            // if (!Auth::check()) {
+            //     return redirect()->route('login')->with('error', 'Vui lòng đăng nhập.');
+            // }
+            // if (Gate::denies('access-admin')) {
+            //     abort(403, 'Bạn không có quyền truy cập trang này.');
+            // }
             return $next($request);
         });
+        // if (!Auth::user()->is_admin) {
+        //     abort(403, 'Bạn không phải quản trị viên.');
+        // }
     }
 
     public function dashboard()
@@ -40,7 +45,7 @@ class AdminController extends Controller
             'threadCount' => Thread::count(),
             'categoryCount' => Category::count(),
             'postCount' => Post::count(),
-            'replyCount' => Post::count(), 
+            'replyCount' => Reply::count(),
         ];
 
         $recentPosts = Post::with('user')->latest()->take(5)->get();

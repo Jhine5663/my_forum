@@ -24,11 +24,11 @@
             <h2 class="text-lg font-bold pixel-font text-blue-400 glow-text mb-4">Admin Menu</h2>
             <ul class="space-y-2">
                 <li><a href="{{ route('admin.dashboard') }}" class="text-blue-400 hover:underline">Bảng điều khiển</a></li>
-                <li><a href="{{ route('users.index') }}" class="text-blue-400 hover:underline">Người dùng</a></li>
-                <li><a href="{{ route('categories.index') }}" class="text-blue-400 hover:underline">Danh mục</a></li>
+                <li><a href="{{ route('admin.users.index') }}" class="text-blue-400 hover:underline">Người dùng</a></li>
+                <li><a href="{{ route('admin.categories.index') }}" class="text-blue-400 hover:underline">Danh mục</a></li>
                 <li><a href="{{ route('admin.threads.index') }}" class="text-blue-400 hover:underline">Chủ đề</a></li>
-                <li><a href="{{ route('posts.index') }}" class="text-blue-400 hover:underline">Bài viết</a></li>
-                <li><a href="{{ route('replies.index') }}" class="text-blue-400 hover:underline">Bình luận</a></li>
+                <li><a href="{{ route('admin.posts.index') }}" class="text-blue-400 hover:underline">Bài viết</a></li>
+                <li><a href="{{ route('admin.replies.index') }}" class="text-blue-400 hover:underline">Bình luận</a></li>
             </ul>
         </aside>
         <main class="flex-1">

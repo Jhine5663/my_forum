@@ -14,18 +14,3 @@
     </div>
 @endsection
 
-@extends('layouts.auth')
-@section('auth-content')
-    <div class="w-full max-w-md bg-gray-800 p-10 rounded-lg shadow-lg border border-blue-500/20 mx-auto mt-10">
-        <h2 class="text-2xl font-bold pixel-font text-blue-400 glow-text mb-6">Đăng Nhập</h2>
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-            <x-form-input name="email" label="Email" type="email" required />
-            <x-form-input name="password" label="Mật khẩu" type="password" required />
-            <div class="flex items-center justify-between mt-4">
-                <x-form-button label="Đăng Nhập" />
-                <a href="{{ route('register') }}" class="text-blue-400 hover:underline">Đăng ký</a>
-            </div>
-        </form>
-    </div>
-@endsection

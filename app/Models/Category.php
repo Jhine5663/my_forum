@@ -9,7 +9,7 @@ class Category extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['name', 'slug', 'is_active']; // Thêm is_active vào $fillable
+    protected $fillable = ['name', 'slug', 'is_active']; 
 
     public function threads()
     {

@@ -27,7 +27,7 @@
                             <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm hover:bg-gray-700 flex items-center">
                                 <i class="fas fa-cog mr-2 text-blue-400"></i> Cài đặt
                             </a>
-                            @if(Auth::user()->is_admin)
+                            @if(Auth::user()->isAdmin())
                                 <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm hover:bg-gray-700 flex items-center">
                                     <i class="fas fa-shield-alt mr-2 text-blue-400"></i> Admin
                                 </a>

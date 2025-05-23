@@ -18,7 +18,7 @@
             </div>
         </div>
         <h2 class="text-xl font-bold text-white mb-4">Chủ đề gần đây</h2>
-        @if($recentThreads->isEmpty())
+        {{-- @if($recentThreads->isEmpty())
             <p class="text-gray-500">Bạn chưa tạo chủ đề nào gần đây.</p>
         @else
             <div class="space-y-4">
@@ -26,6 +26,6 @@
                     <x-thread-card :thread="$thread" />
                 @endforeach
             </div>
-        @endif
+        @endif --}}
     </div>
 @endsection

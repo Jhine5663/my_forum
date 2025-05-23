@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;  // Thêm dòng này
+use Illuminate\Foundation\Auth\User as Authenticatable; 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class User extends Authenticatable  // Kế thừa từ Authenticatable
+class User extends Authenticatable 
 {
     use HasFactory;
 
@@ -16,7 +16,7 @@ class User extends Authenticatable  // Kế thừa từ Authenticatable
     ];
     public function isAdmin()
     {
-        return $this->is_admin === true;
+        return (bool) $this->is_admin;
     }
 
     public function threads()

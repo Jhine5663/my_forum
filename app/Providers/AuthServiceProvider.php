@@ -18,7 +18,7 @@ class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
         Post::class => PostPolicy::class,
-        User::class => UserPolicy::class, // Chỉ giữ lại một định nghĩa
+        User::class => UserPolicy::class, 
         Reply::class => ReplyPolicy::class,  
         Thread::class => ThreadPolicy::class,    
     ];
@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('access-admin', function ($user) {
-            return $user->is_admin;  // Kiểm tra nếu user là admin
+            return $user->is_admin;  
         });
     }
 }

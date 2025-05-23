@@ -2,7 +2,7 @@
 @section('admin-content')
     <h1 class="text-2xl font-bold pixel-font text-blue-400 glow-text mb-4">Quản lý người dùng</h1>
     <div class="mb-4">
-        <a href="{{ route('users.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded pixel-btn">Tạo người dùng</a>
+        <a href="{{ route('admin.users.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded pixel-btn">Tạo người dùng</a>
     </div>
     @if($users->isEmpty())
         <p class="text-gray-500">Chưa có người dùng nào.</p>
@@ -24,8 +24,8 @@
                             <td class="py-2 px-4 text-white">{{ $user->email }}</td>
                             <td class="py-2 px-4 text-white">{{ $user->is_admin ? 'Có' : 'Không' }}</td>
                             <td class="py-2 px-4">
-                                <a href="{{ route('users.edit', $user) }}" class="text-blue-400 hover:underline">Sửa</a>
-                                <form action="{{ route('users.destroy', $user) }}" method="POST" class="inline">
+                                <a href="{{ route('admin.users.edit', $user) }}" class="text-blue-400 hover:underline">Sửa</a>
+                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-400 hover:underline ml-2" onclick="return confirm('Xóa người dùng này?')">Xóa</button>

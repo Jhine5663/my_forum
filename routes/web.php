@@ -52,21 +52,17 @@ Route::middleware('auth')->group(function () {
     Route::resource('threads', ThreadController::class)->except(['create', 'store']);
     Route::resource('posts', PostController::class)->except(['create', 'store']);
     Route::resource('replies', ReplyController::class)->except(['store', 'show']);
-    Route::resource('users', UserController::class);
 });
 
 // Admin routes
 Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::resource('threads', ThreadController::class)->names([
-        'index' => 'threads.index',
-        'create' => 'threads.create',
-        'store' => 'threads.store',
-        'show' => 'threads.show',
-        'edit' => 'threads.edit',
-        'update' => 'threads.update',
-        'destroy' => 'threads.destroy',
-    ]);
+    
+    Route::resource('categories', CategoryController::class);
+    Route::resource('users', UserController::class);
+    Route::resource('threads', ThreadController::class);
+    Route::resource('posts', PostController::class);
+    Route::resource('replies', ReplyController::class);
 });
 
 // Machine learning routes (placeholder)

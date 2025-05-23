@@ -5,6 +5,7 @@
         <form action="{{ route('admin.threads.store') }}" method="POST">
             @csrf
             <x-form-input name="title" label="Tiêu đề" :value="old('title')" required />
+            <x-form-textarea name="body" label="Nội dung" :value="old('body')" required />
             <div class="mb-4">
                 <label for="category_id" class="block text-gray-300 font-bold mb-2">Danh mục</label>
                 <select name="category_id" id="category_id" class="w-full py-2 px-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 border border-blue-500/30" required>

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_admin')->default(false);  // Thêm trường is_admin
+            $table->boolean('is_admin')->default(false);  
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_admin');  // Xóa trường is_admin nếu cần
+            $table->dropColumn('is_admin');  
         });
     }
 };
