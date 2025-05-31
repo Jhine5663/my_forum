@@ -15,7 +15,7 @@
             <p class="text-gray-500">Chưa có danh mục nào.</p>
         @else
             @foreach ($categories as $category)
-                <div class="bg-gray-800 p-4 mb-4 shadow-md rounded-lg border border-blue-500/20 game-card">
+                <div class="bg-W-800 p-4 mb-4 shadow-md rounded-lg border border-blue-500/20 game-card">
                     <h2 class="text-lg font-bold text-white">
                         <a href="{{ route('categories.show', $category) }}"
                             class="hover:text-blue-400">{{ $category->name }}</a>

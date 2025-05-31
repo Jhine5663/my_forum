@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('body');
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();// Người tạo chủ đề
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

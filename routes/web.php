@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     // Profile routes
     Route::prefix('profile')->name('profile.')->group(function () {
         Route::get('/', [ProfileController::class, 'show'])->name('show');
-        Route::get('/edit', [RegisteredUserController::class, 'edit_profile'])->name('edit');
+        Route::get('/edit', [ProfileController::class, 'edit_profile'])->name('edit');
         Route::put('/update', [RegisteredUserController::class, 'update_profile'])->name('update');
     });
 

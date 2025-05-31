@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('admin-content')
-    <h1 class="text-2xl font-bold mb-4 text-blue-500">Tạo bài viết mới</h1>
+    <h1 class="text-2xl font-bold mb-4 text-blue-700">Tạo bài viết mới</h1>
 
     <form action="{{ route('admin.posts.store') }}" method="POST">
         @csrf

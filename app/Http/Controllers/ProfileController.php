@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\Post;
+use Illuminate\Validation\Rules\Can;
 
 class ProfileController extends Controller
 {
@@ -43,10 +45,23 @@ class ProfileController extends Controller
         }
         $user = Auth::user();
         return view('users.profile', [
+            'categories' => Category::all(),
             'user' => $user,
-            'threads' => $user->threads()->latest()->paginate(5),
-            'posts' => $user->posts()->latest()->paginate(5),
-            'replies' => $user->replies()->latest()->paginate(5),
+            'userCount' => \App\Models\User::count(),
+            'threadCount' => \App\Models\Thread::count(),
+            'postCount' => \App\Models\Post::count(),
+        ]);
+    }
+    public function edit_profile()
+    {
+        $user = Auth::user();
+        $categories = Category::all(); 
+        return view('users.edit-profile', [
+            'user'=> $user, 
+            'categories' => $categories,
+            'userCount' => \App\Models\User::count(),
+            'threadCount' => \App\Models\Thread::count(),
+            'postCount' => \App\Models\Post::count(),
         ]);
     }
 }

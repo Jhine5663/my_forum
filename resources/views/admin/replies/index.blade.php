@@ -2,9 +2,9 @@
 
 @section('admin-content')
     <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-bold pixel-font text-blue-400 glow-text">Quản lý bình luận</h1>
+        <h1 class="text-2xl font-bold pixel-font text-blue-700 glow-text">Quản lý bình luận</h1>
         <a href="{{ route('admin.replies.create') }}"
-            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded pixel-btn">
+            class="bg-green-600 hover:bg-green-700 text-black px-4 py-2 rounded pixel-btn">
             + Tạo bình luận
         </a>
     </div>
@@ -12,22 +12,22 @@
     @if ($replies->isEmpty())
         <p class="text-gray-500">Chưa có bình luận nào.</p>
     @else
-        <div class="bg-gray-800 p-4 rounded-lg shadow-md border border-blue-500/20">
+        <div class="bg-yellow-200 p-4 rounded-lg shadow-md border border-blue-500/20">
             <table class="w-full text-left">
                 <thead>
                     <tr class="border-b border-blue-500/20">
-                        <th class="py-2 px-4 text-white">Nội dung</th>
-                        <th class="py-2 px-4 text-white">Người đăng</th>
-                        <th class="py-2 px-4 text-white">Bài viết</th>
-                        <th class="py-2 px-4 text-white">Hành động</th>
+                        <th class="py-2 px-4 text-black">Nội dung</th>
+                        <th class="py-2 px-4 text-black">Người đăng</th>
+                        <th class="py-2 px-4 text-black">Bài viết</th>
+                        <th class="py-2 px-4 text-black">Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($replies as $reply)
                         <tr class="border-b border-blue-500/20">
-                            <td class="py-2 px-4 text-white">{{ \Illuminate\Support\Str::limit($reply->comment, 20) }}</td>
-                            <td class="py-2 px-4 text-white">{{ $reply->user->user_name }}</td>
-                            <td class="py-2 px-4 text-white">
+                            <td class="py-2 px-4 text-black">{{ \Illuminate\Support\Str::limit($reply->comment, 20) }}</td>
+                            <td class="py-2 px-4 text-black">{{ $reply->user->user_name }}</td>
+                            <td class="py-2 px-4 text-black">
                                 <a href="{{ route('admin.posts.show', $reply->post) }}"
                                     class="text-blue-400 hover:underline">
                                     {{ \Illuminate\Support\Str::limit($reply->post->content, 10) }}
