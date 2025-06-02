@@ -1,32 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin; 
 
+use App\Http\Controllers\Controller; 
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Gate;
+// use Illuminate\Support\Facades\Gate; 
 
 class CategoryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('admin');
+        $this->middleware(['auth', 'admin']);
     }
+
     public function index()
     {
         $categories = Category::paginate(10);
-
-        if (request()->routeIs('admin.*')) {
-            return view('admin.categories.index', compact('categories'));
-        }
-    }
-
-    public function show(Category $category)
-    {
-        $threads = $category->threads()->paginate(10);
-        return view('forum.categories.show', compact('category', 'threads'));
+        return view('admin.categories.index', compact('categories'));
     }
 
     public function create()
@@ -40,17 +32,18 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:categories,slug',
             'is_active' => 'boolean',
+            'description' => 'nullable|string|max:1000', 
         ]);
 
         Category::create([
             'name' => $request->name,
             'slug' => $request->slug ?? Str::slug($request->name),
             'is_active' => $request->filled('is_active'),
+            'description' => $request->description,
         ]);
 
         return redirect()->route('admin.categories.index')->with('success', 'Thể loại đã được thêm thành công.');
     }
-
 
     public function edit(Category $category)
     {
@@ -63,22 +56,21 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
             'is_active' => 'required|boolean',
+            'description' => 'nullable|string|max:1000', 
         ]);
 
-        // Nếu người dùng không nhập slug, tạo slug từ tên thể loại
         $slug = $request->slug ?: Str::slug($request->name);
 
         $category->update([
             'name' => $request->name,
             'slug' => $slug,
-            'is_active' => $request->is_active ?? 1,
+            'is_active' => $request->is_active,
+            'description' => $request->description,
         ]);
 
         return redirect()->route('admin.categories.index')->with('success', 'Danh mục đã được cập nhật thành công.');
     }
 
-
-    // Xóa thể loại
     public function destroy(Category $category)
     {
         if ($category->threads()->exists()) {

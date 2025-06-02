@@ -9,7 +9,7 @@
                 <h3 class="text-2xl font-bold pixel-font text-blue-900 glow-text mb-4">Liên kết nhanh</h3>
                 <ul class="space-y-3">
                     <li><a href="{{ route('forum.index') }}" class="text-blue-600 hover:text-blue-800 hover:underline text-base">Trang chủ</a></li>
-                    <li><a href="{{ route('categories.show', ['category' => 1]) }}" class="text-blue-600 hover:text-blue-800 hover:underline text-base">Danh mục</a></li>
+                    <li><a href="{{ route('forum.categories.show', ['category' => 1]) }}" class="text-blue-600 hover:text-blue-800 hover:underline text-base">Chuyên mục</a></li>
                     <li><a href="{{ route('profile.show') }}" class="text-blue-600 hover:text-blue-800 hover:underline text-base">Hồ sơ</a></li>
                 </ul>
             </div>

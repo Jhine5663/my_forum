@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     @vite(['resources/js/app.js', 'resources/css/app.css'])
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;500;700&display=swap');
+        /* @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;500;700&display=swap'); */
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #bfdbfe 0%, #e0f2fe 100%);

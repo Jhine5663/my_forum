@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Thread;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ThreadPolicy
@@ -12,53 +11,55 @@ class ThreadPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any models.
+     * Determine whether the user can view any threads (xem danh sách chủ đề).
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user = null): bool // $user có thể null nếu người dùng là khách
     {
-        return false;
+        return true; // Mọi người đều có thể xem danh sách chủ đề
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can view the thread (xem một chủ đề cụ thể).
      */
-    public function view(User $user, Thread $thread): bool
+    public function view(User $user = null, Thread $thread): bool
     {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can create models.
-     */
-    /**
-     * Xác định xem người dùng có thể tạo chủ đề không.
-     */
-    public function create(User $user): bool
-    {
-        // Cho phép cả admin và user thường tạo chủ đề
         return true;
     }
 
-    public function createAsAdmin(User $user): bool
+    /**
+     * Determine whether the user can create threads (tạo chủ đề mới).
+     */
+    public function create(User $user): bool
     {
-        // Chỉ cho phép admin tạo chủ đề đặc biệt
-        return $user->is_admin;
+        // Chỉ người dùng đã đăng nhập (và có thể là chưa bị khóa) mới có thể tạo chủ đề
+        return (bool) $user; // Đảm bảo người dùng đã đăng nhập
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Policy để cho phép admin tạo chủ đề đặc biệt (nếu có).
+     * Phương thức này có thể được gọi tường minh bằng Gate/Policy check.
+     */
+    public function createAsAdmin(User $user): bool
+    {
+        return $user->is_admin; // Chỉ admin
+    }
+
+    /**
+     * Determine whether the user can update the thread.
      */
     public function update(User $user, Thread $thread): bool
     {
-        return false;
+        // Chỉ chủ sở hữu chủ đề HOẶC admin mới có quyền cập nhật
+        return $user->id === $thread->user_id || $user->is_admin;
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Determine whether the user can delete the thread.
      */
     public function delete(User $user, Thread $thread): bool
     {
-        return false;
+        // Chỉ chủ sở hữu chủ đề HOẶC admin mới có quyền xóa
+        return $user->id === $thread->user_id || $user->is_admin;
     }
 
     /**
@@ -66,7 +67,7 @@ class ThreadPolicy
      */
     public function restore(User $user, Thread $thread): bool
     {
-        return false;
+        return false; // Nếu không có soft delete
     }
 
     /**
@@ -74,6 +75,6 @@ class ThreadPolicy
      */
     public function forceDelete(User $user, Thread $thread): bool
     {
-        return false;
+        return false; // Nếu không có xóa vĩnh viễn
     }
 }

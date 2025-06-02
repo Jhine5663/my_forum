@@ -22,7 +22,7 @@
             <div class="p-4 bg-green-700 rounded-lg game-card flex items-center space-x-4">
                 <i class="fas fa-folder text-3xl text-blue-500"></i>
                 <div>
-                    <h2 class="text-lg text-gray-200 pixel-font">Danh mục</h2>
+                    <h2 class="text-lg text-gray-200 pixel-font">Chuyên mục</h2>
                     <p class="text-2xl text-blue-300">{{ $categoryCount }}</p>
                 </div>
             </div>

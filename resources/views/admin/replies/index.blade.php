@@ -2,7 +2,7 @@
 
 @section('admin-content')
     <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-bold pixel-font text-blue-700 glow-text">Quản lý bình luận</h1>
+        <h1 class="text-2xl font-bold pixel-font text-blue-700 glow-text">Quản lý Phản hồi</h1>
         <a href="{{ route('admin.replies.create') }}"
             class="bg-green-600 hover:bg-green-700 text-black px-4 py-2 rounded pixel-btn">
             + Tạo bình luận
@@ -10,7 +10,7 @@
     </div>
 
     @if ($replies->isEmpty())
-        <p class="text-gray-500">Chưa có bình luận nào.</p>
+        <p class="text-gray-500">Chưa có Phản hồi nào.</p>
     @else
         <div class="bg-yellow-200 p-4 rounded-lg shadow-md border border-blue-500/20">
             <table class="w-full text-left">

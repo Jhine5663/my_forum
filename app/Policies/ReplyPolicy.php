@@ -13,41 +13,40 @@ class ReplyPolicy
     /**
      * Determine whether the user can view any replies.
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user = null): bool
     {
-        return true; // Tất cả người dùng đều có thể xem các phản hồi
+        return true; // Tất cả người dùng (kể cả khách) đều có thể xem danh sách phản hồi
     }
 
     /**
      * Determine whether the user can view the reply.
      */
-    public function view(User $user, Reply $reply)
+    public function view(User $user = null, Reply $reply): bool
     {
-        return true; // Tất cả người dùng đều có thể xem một phản hồi cụ thể
+        return true; // Tất cả người dùng (kể cả khách) đều có thể xem một phản hồi cụ thể
     }
 
     /**
      * Determine whether the user can create replies.
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
-        return $user->is_admin || $user->is_verified; // Người dùng phải là admin hoặc đã xác thực để tạo phản hồi
+        return (bool) $user;
     }
 
     /**
      * Determine whether the user can update the reply.
      */
-    public function update(User $user, Reply $reply)
+    public function update(User $user, Reply $reply): bool
     {
-        return $user->id === $reply->user_id || $user->is_admin; // Người dùng phải là chủ sở hữu hoặc admin để cập nhật phản hồi
+        return $user->id === $reply->user_id || $user->is_admin;
     }
 
     /**
      * Determine whether the user can delete the reply.
      */
-    public function delete(User $user, Reply $reply)
+    public function delete(User $user, Reply $reply): bool
     {
-        return $user->id === $reply->user_id || $user->is_admin; // Người dùng phải là chủ sở hữu hoặc admin để xóa phản hồi
+        return $user->id === $reply->user_id || $user->is_admin;
     }
 }
-

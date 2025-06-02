@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Models\User;
-use App\Policies\AdminPolicy;
 use App\Policies\PostPolicy;
 use App\Models\Post;
 use App\Models\Thread;

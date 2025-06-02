@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('admin-content')
-    <h1 class="text-2xl font-bold pixel-font text-blue-700 glow-text mb-4">Sửa danh mục</h1>
+    <h1 class="text-2xl font-bold pixel-font text-blue-700 glow-text mb-4">Sửa chuyên mục</h1>
     <div class="bg-white-800 p-6 rounded-lg shadow-md border border-blue-500/20">
         <form action="{{ route('admin.categories.update', $category) }}" method="POST">
             @csrf

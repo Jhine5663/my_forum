@@ -4,21 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Game 2D Forum')</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    {{-- Xóa <script src="https://cdn.tailwindcss.com"></script> nếu còn --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     @vite(['resources/js/app.js', 'resources/css/app.css'])
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;500;700&display=swap');
+        /* @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;500;700&display=swap'); */
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #bfdbfe 0%, #e0f2fe 100%);
-            color: #1e293b;
+            font-family: 'Poppins', sans-serif; /* Phông chữ chính hỗ trợ tiếng Việt */
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%); /* Nền sáng hơn */
+            color: #1e293b; /* Màu chữ mặc định tối */
         }
-        .pixel-font { font-family: 'Press Start 2P', cursive; }
+        .pixel-font { 
+            font-family: 'Press Start 2P', cursive;
+        }
+        /* Các style khác của Người */
         .sidebar {
             scrollbar-width: thin;
             scrollbar-color: #3b82f6 #bfdbfe;
-            background: rgba(219, 234, 254, 0.95);
+            background: rgba(255, 255, 255, 0.95); /* Nền sidebar trắng hơn */
             backdrop-filter: blur(8px);
             border: 2px solid #93c5fd;
             border-radius: 10px;
@@ -42,8 +45,8 @@
         .game-card {
             transition: all 0.4s ease;
             transform-style: preserve-3d;
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid #93c5fd;
+            background: rgba(255, 255, 255, 0.9); /* Nền thẻ sáng */
+            border: 2px solid #93c5fd; /* Viền xanh nhạt */
             border-radius: 10px;
             backdrop-filter: blur(4px);
         }
@@ -113,8 +116,8 @@
         @include('components.notification')
         <aside class="hidden md:block w-80 mr-6 sticky top-6 sidebar">
             <div class="p-4">
-                <h3 class="font-bold text-lg mb-4 pixel-font text-blue-800 glow-text">Diễn đàn Game 2D</h3>
-                @include('components.sidebar')
+                <h3 class="font-bold text-lg mb-4 text-blue-800 glow-text">Diễn đàn Game 2D</h3>
+                <x-sidebar /> 
             </div>
         </aside>
         <main class="flex-1">

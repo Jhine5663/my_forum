@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Game 2D Forum</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    {{-- <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet"> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -25,7 +25,7 @@
             <ul class="space-y-2">
                 <li><a href="{{ route('admin.dashboard') }}" class="text-blue-700 hover:underline">Bảng điều khiển</a></li>
                 <li><a href="{{ route('admin.users.index') }}" class="text-blue-700 hover:underline">Người dùng</a></li>
-                <li><a href="{{ route('admin.categories.index') }}" class="text-blue-700 hover:underline">Danh mục</a></li>
+                <li><a href="{{ route('admin.categories.index') }}" class="text-blue-700 hover:underline">Chuyên mục</a></li>
                 <li><a href="{{ route('admin.threads.index') }}" class="text-blue-700 hover:underline">Chủ đề</a></li>
                 <li><a href="{{ route('admin.posts.index') }}" class="text-blue-700 hover:underline">Bài viết</a></li>
                 <li><a href="{{ route('admin.replies.index') }}" class="text-blue-700 hover:underline">Bình luận</a></li>

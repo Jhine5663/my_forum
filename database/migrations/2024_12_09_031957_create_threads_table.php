@@ -15,7 +15,6 @@ return new class extends Migration
         Schema::create('threads', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('body');
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->timestamps();

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->boolean('is_active')->default(1)->after('slug'); // Thêm cột is_active sau cột slug
+            $table->text('description')->nullable()->after('is_active'); // Đặt sau cột 'is_active'
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->dropColumn('is_active'); // Xóa cột is_active khi rollback
+            $table->dropColumn('description'); // Xóa cột khi rollback
         });
     }
 };

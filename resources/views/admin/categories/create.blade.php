@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('admin-content')
-    <h1 class="text-2xl font-bold pixel-font text-blue-700 glow-text mb-4">Tạo danh mục</h1>
+    <h1 class="text-2xl font-bold pixel-font text-blue-700 glow-text mb-4">Tạo chuyên mục</h1>
     <div class="bg-White-800 p-6 rounded-lg shadow-md border border-blue-500/20">
         <form action="{{ route('categories.store') }}" method="POST">
             @csrf

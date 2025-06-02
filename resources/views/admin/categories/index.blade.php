@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 
 @section('admin-content')
-    <h1 class="text-2xl font-bold pixel-font text-blue-700 glow-text mb-4">Quản lý danh mục</h1>
+    <h1 class="text-2xl font-bold pixel-font text-blue-700 glow-text mb-4">Quản lý chuyên mục</h1>
     <div class="mb-4">
-        <a href="{{ route('admin.categories.create') }}" class="bg-blue-500 hover:bg-blue-700 text-black px-4 py-2 rounded pixel-btn">Tạo danh mục</a>
+        <a href="{{ route('admin.categories.create') }}" class="bg-blue-500 hover:bg-blue-700 text-black px-4 py-2 rounded pixel-btn">Tạo chuyên mục</a>
     </div>
     @if($categories->isEmpty())
         <p class="text-gray-500">Chưa có danh mục nào.</p>
@@ -12,7 +12,7 @@
             <table class="w-full text-left">
                 <thead>
                 <tr class="border-b border-blue-500/20">
-                    <th class="py-2 px-4 text-black">Tên danh mục</th>
+                    <th class="py-2 px-4 text-black">Tên chuyên mục</th>
                     <th class="py-2 px-4 text-black">Slug</th>
                     <th class="py-2 px-4 text-black">Hoạt động</th>
                     <th class="py-2 px-4 text-black blackspace-nowrap">Hành động</th>
