@@ -1,3 +1,310 @@
+/*
+|--------------------------------------------------------------------------
+| resources/css/app.css
+|--------------------------------------------------------------------------
+|
+| Đây là tệp CSS chính của ứng dụng.
+| Nó import các lớp cơ bản của Tailwind CSS, các thành phần tùy chỉnh,
+| và các tiện ích.
+|
+| Các style tùy chỉnh (custom CSS) cho ứng dụng cũng được định nghĩa ở đây,
+| hoặc được import từ các tệp riêng biệt để tổ chức tốt hơn.
+|
+*/
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+|--------------------------------------------------------------------------
+| Google Fonts
+|--------------------------------------------------------------------------
+|
+| Import tất cả các phông chữ từ Google Fonts mà ứng dụng sử dụng.
+| - Poppins: Phông chữ sans-serif chính cho nội dung dễ đọc (hỗ trợ tiếng Việt).
+| - Press Start 2P: Phông chữ pixel cho hiệu ứng retro/game (chủ yếu cho tiêu đề ngắn, tiếng Anh).
+| - Roboto: (Tùy chọn) Có thể dùng làm phông chữ cho khu vực Admin.
+|
+*/
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;500;700&family=Roboto:wght@400;700&display=swap');
+
+
+/*
+|--------------------------------------------------------------------------
+| Global Body Styles
+|--------------------------------------------------------------------------
+|
+| Các style mặc định áp dụng cho toàn bộ thẻ <body> của ứng dụng.
+|
+*/
+body {
+    font-family: 'Poppins', sans-serif; /* Phông chữ mặc định cho nội dung chính */
+    /* Màu nền và màu chữ chính sẽ được định nghĩa trực tiếp trong các layouts Blade */
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Common Utility Classes & Animations
+|--------------------------------------------------------------------------
+|
+| Các lớp tiện ích tùy chỉnh và định nghĩa keyframes cho animations.
+| Các style này có thể được sử dụng ở nhiều nơi trong ứng dụng (forum, admin, auth).
+|
+*/
+.pixel-font { 
+    font-family: 'Press Start 2P', cursive; /* Áp dụng cho các tiêu đề/phần tử cụ thể */
+}
+.glow-text {
+    text-shadow: 0 0 4px rgba(59, 130, 246, 0.2); /* Hiệu ứng phát sáng cho chữ */
+}
+/* Style cho nút có hiệu ứng pixel */
+.pixel-btn {
+    position: relative;
+    background: #60a5fa; /* Màu nền nút pixel */
+    border: 2px solid #93c5fd; /* Viền nút pixel */
+    border-radius: 6px;
+    padding: 8px 16px;
+    color: #ffffff;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+.pixel-btn:hover {
+    background: #3b82f6; /* Màu nền khi hover */
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2); /* Hiệu ứng đổ bóng khi hover */
+}
+/* Keyframe cho animation pulse (nếu sử dụng cho link active) */
+@keyframes pulse {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+}
+
+/* Base style cho sidebar (nếu Người dùng chung class sidebar cho cả forum và admin) */
+.sidebar { 
+    scrollbar-width: thin;
+    scrollbar-color: #3b82f6 #bfdbfe;
+    /* Background, border và các thuộc tính khác sẽ được định nghĩa trong Blade của layout cụ thể */
+    backdrop-filter: blur(8px); /* Blur nền */
+    border-radius: 10px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    transition: all 0.3s ease; /* Transition cho sidebar */
+}
+.sidebar::-webkit-scrollbar { width: 8px; }
+.sidebar::-webkit-scrollbar-track { background: #bfdbfe; }
+.sidebar::-webkit-scrollbar-thumb { background-color: #3b82f6; border-radius: 4px; }
+
+/* Link navigation đang hoạt động */
+.active-nav-link { 
+    position: relative;
+}
+.active-nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background: #3b82f6;
+    animation: pulse 2s infinite;
+}
+
+/* Style cho các game-card/post-card/thread-card có hiệu ứng hover */
+.game-card:hover {
+    transform: translateY(-5px); /* Hiệu ứng nhấc lên khi hover */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2); /* Đổ bóng mạnh hơn khi hover */
+}
+.post-card:hover { 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Đổ bóng nhẹ khi hover thẻ bài viết */
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Forum Specific Styles (Frontend)
+|--------------------------------------------------------------------------
+|
+| Các style dành riêng cho giao diện diễn đàn công khai.
+|
+*/
+.gradient-bg { /* Nền gradient cho Header của forum */
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); 
+}
+.category-tag:hover { /* Hover cho tag danh mục (nếu có dùng) */
+    background-color: #4a5568;
+}
+.active-tab { /* Tab điều hướng đang hoạt động */
+    border-bottom: 3px solid #4299e1;
+    color: #4299e1;
+}
+#mobile-menu { /* Menu mobile */
+    transition: all 0.3s ease; 
+}
+.retro-bg { /* Nền retro (nếu có dùng) */
+    background: repeating-linear-gradient(
+        0deg, #d1e7ff, #d1e7ff 3px, #e0f2fe 3px, #e0f2fe 6px
+    );
+}
+.search-bar { /* Thanh tìm kiếm */
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #93c5fd;
+    border-radius: 9999px;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+    color: #1e293b;
+}
+.search-bar:focus {
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.2);
+    border-color: #3b82f6;
+}
+.search-bar::placeholder {
+    color: #6b7280;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Admin Panel Specific Styles (Backend)
+|--------------------------------------------------------------------------
+|
+| Các style dành riêng cho giao diện quản trị viên (Admin Panel).
+|
+*/
+.sidebar-collapsed { /* Trạng thái thu gọn của sidebar admin */
+    width: 70px;
+}
+.sidebar-collapsed .sidebar-text {
+    display: none;
+}
+.sidebar-collapsed .logo-text {
+    display: none;
+}
+.sidebar-collapsed .nav-item {
+    justify-content: center;
+}
+.content-area { /* Khu vực nội dung chính của admin */
+    transition: all 0.3s ease;
+    margin-left: 250px; /* Mặc định là mở */
+}
+.content-expanded { 
+    margin-left: 250px; 
+}
+.content-collapsed {
+    margin-left: 70px;
+}
+.active-nav { /* Link navigation admin đang hoạt động */
+    background-color: #3b82f6; /* Màu xanh của Tailwind blue-600 */
+    color: white;
+}
+.active-nav:hover {
+    background-color: #3b82f6 !important;
+    color: white !important;
+}
+.chart-container { /* Chiều cao cho biểu đồ trong admin dashboard */
+    height: 300px; 
+}
+@media (max-width: 768px) {
+    .sidebar { /* Responsive cho sidebar admin trên mobile */
+        position: fixed; 
+        z-index: 1000;
+        left: -100%; /* Mặc định ẩn trên mobile */
+        width: 250px; 
+        background-color: white; 
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); 
+    }
+    .sidebar-open {
+        left: 0;
+    }
+    .content-area {
+        margin-left: 0 !important; /* Trên mobile, nội dung không bị sidebar đẩy */
+    }
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Auth Specific Styles (Giao diện đăng nhập/đăng ký)
+|--------------------------------------------------------------------------
+|
+| Các style dành riêng cho giao diện xác thực (đăng nhập/đăng ký).
+|
+*/
+/* @keyframes float và .float-animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+.float-animation {
+    animation: float 4s ease-in-out infinite;
+}
+
+/* .toggle-buttons và .toggle-slider */
+.toggle-buttons {
+    position: relative;
+    display: flex;
+    background: #e2e8f0; /* gray-200 */
+    padding: 4px;
+    border-radius: 9999px;
+}
+.toggle-buttons button {
+    position: relative;
+    flex: 1;
+    padding: 8px;
+    border-radius: 9999px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+.toggle-buttons button.active {
+    color: white;
+}
+.toggle-slider {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    height: calc(100% - 8px);
+    width: calc(50% - 8px);
+    background: #3b82f6; /* blue-600 */
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+}
+.toggle-slider.right {
+    transform: translateX(calc(100% + 8px));
+}
+
+/* Custom input focus và error */
+.input-group:focus-within label {
+    color: #3b82f6; /* blue-600 */
+}
+.input-group:focus-within .input-icon {
+    color: #3b82f6; /* blue-600 */
+}
+.input-error {
+    border-color: #ef4444; /* red-500 */
+}
+
+/* Style cho auth-container (được định nghĩa trong blade) */
+/* @keyframes slideIn (được định nghĩa trong blade) */
+/*
+.auth-container {
+    background: white;
+    border: 3px solid #93c5fd;
+    border-radius: 12px;
+    box-shadow: 6px 6px 0 rgba(147, 197, 253, 0.2);
+    backdrop-filter: blur(6px);
+    padding: 2.5rem;
+    max-width: 500px;
+    width: 100%;
+    animation: slideIn 0.5s ease;
+    margin: 0 auto;
+}
+@keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+*/

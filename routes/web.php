@@ -68,13 +68,15 @@ Authenticated Routes (Dành cho người dùng đã đăng nhập)
 Route::middleware('auth')->group(function () {
 
     // Profile người dùng
+    // Profile người dùng của CHÍNH MÌNH
+    // URL: /profile, /profile/edit, /profile/threads, /profile/replies
     Route::prefix('profile')->name('profile.')->group(function () {
-        Route::get('/', [ProfileController::class, 'show'])->name('show');
-        Route::get('/threads', [ProfileController::class, 'threads'])->name('threads'); // Threads của người dùng
-        Route::get('/replies', [ProfileController::class, 'replies'])->name('replies'); // Replies của người dùng
-        Route::get('/dashboard', [ProfileController::class, 'dashboard'])->name('dashboard'); // Dashboard hồ sơ (nếu có)
-        Route::get('/edit', [ProfileController::class, 'edit_profile'])->name('edit');
-        Route::put('/update', [RegisteredUserController::class, 'update_profile'])->name('update'); // update_profile ở RegisteredUserController
+        Route::get('/', [ProfileController::class, 'index'])->name('show'); 
+        Route::get('/edit', [ProfileController::class, 'edit'])->name('edit'); 
+        Route::put('/update', [ProfileController::class, 'update'])->name('update'); 
+        Route::get('/threads', [ProfileController::class, 'threads'])->name('threads');
+        Route::get('/replies', [ProfileController::class, 'replies'])->name('replies');
+        // Route::get('/dashboard', [ProfileController::class, 'dashboard'])->name('dashboard'); // XÓA DÒNG NÀY (đã hợp nhất vào index)
     });
 
     Route::prefix('forum')->name('forum.')->group(function () {

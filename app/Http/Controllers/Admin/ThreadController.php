@@ -31,6 +31,7 @@ class ThreadController extends Controller
 
     public function create()
     {
+        $users = User::all();
         $categories = Category::all();
         return view('admin.threads.create', compact('categories', 'users'));
     }

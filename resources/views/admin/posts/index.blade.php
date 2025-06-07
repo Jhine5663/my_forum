@@ -1,56 +1,71 @@
 @extends('layouts.admin')
 
-@section('admin-content')
-    <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-bold pixel-font text-blue-700 glow-text">Quản lý bài viết</h1>
-        <a href="{{ route('admin.posts.create') }}"
-            class="bg-green-600 hover:bg-green-700 text-black px-4 py-2 rounded pixel-btn">
-            + Tạo bài viết
-        </a>
-    </div>
+@section('title', 'Quản lý Bài viết | Admin Panel - 2D Game Hub')
 
-    @if ($posts->isEmpty())
-        <p class="text-gray-500">Chưa có bài viết nào.</p>
-    @else
-        <div class="bg-yellow-200 p-4 rounded-lg shadow-md border border-blue-500/20">
-            <table class="w-full text-left">
-                <thead>
-                    <tr class="border-b border-blue-500/20">
-                        <th class="py-2 px-4 text-black">Nội dung</th>
-                        <th class="py-2 px-4 text-black">Người đăng</th>
-                        <th class="py-2 px-4 text-black">Chủ đề</th>
-                        <th class="py-2 px-4 text-black">Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($posts as $post)
-                        <tr class="border-b border-blue-500/20">
-                            <td class="py-2 px-4 text-black"> 
-                                <a href="{{ route('admin.threads.show', $post->thread) }}"
-                                    class="text-blue-400 hover:underline">
-                                    {{ \Illuminate\Support\Str::limit($post->content, 10) }}
-                                </a></td>
-                            <td class="py-2 px-4 text-black">{{ $post->user->user_name }}</td>
-                            <td class="py-2 px-4 text-black">
-                                <a href="{{ route('admin.threads.show', $post->thread) }}"
-                                    class="text-blue-400 hover:underline">
-                                    {{ $post->thread->title }}
-                                </a>
-                            </td>
-                            <td class="py-2 px-4">
-                                <a href="{{ route('admin.posts.edit', $post) }}"
-                                    class="text-blue-400 hover:underline">Sửa</a>
-                                <form action="{{ route('admin.posts.destroy', $post) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-400 hover:underline ml-2"
-                                        onclick="return confirm('Xóa bài viết này?')">Xóa</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+@section('admin-content')
+    <div class="p-6 bg-white rounded-lg shadow-md">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">Quản lý Bài viết</h1>
+            <a href="{{ route('admin.posts.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center space-x-2">
+                <i class="fas fa-plus-circle"></i>
+                <span>Thêm Bài viết mới</span>
+            </a>
         </div>
-    @endif
+
+        @if ($posts->isEmpty())
+            <div class="bg-gray-50 p-4 rounded-lg text-center text-gray-600 border border-gray-200">
+                Chưa có bài viết nào.
+            </div>
+        @else
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700 border-b border-gray-200">ID</th>
+                            <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700 border-b border-gray-200">Nội dung</th>
+                            <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700 border-b border-gray-200">Chủ đề</th>
+                            <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700 border-b border-gray-200">Người đăng</th>
+                            <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700 border-b border-gray-200">Ngày đăng</th>
+                            <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700 border-b border-gray-200">Phản hồi</th>
+                            <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700 border-b border-gray-200">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($posts as $post)
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-3 px-4 border-b border-gray-200 text-sm text-gray-700">{{ $post->id }}</td>
+                                <td class="py-3 px-4 border-b border-gray-200 text-sm text-gray-700">{{ Str::limit($post->content, 80) }}</td>
+                                <td class="py-3 px-4 border-b border-gray-200 text-sm">
+                                    <a href="{{ route('admin.threads.show', $post->thread) }}" class="text-blue-600 hover:underline">
+                                        {{ Str::limit($post->thread->title, 40) }}
+                                    </a>
+                                </td>
+                                <td class="py-3 px-4 border-b border-gray-200 text-sm">
+                                    <a href="{{ route('admin.users.show', $post->user) }}" class="text-blue-600 hover:underline">
+                                        {{ $post->user->user_name }}
+                                    </a>
+                                </td>
+                                <td class="py-3 px-4 border-b border-gray-200 text-sm text-gray-700">{{ $post->created_at->format('d/m/Y H:i') }}</td>
+                                <td class="py-3 px-4 border-b border-gray-200 text-sm text-gray-700">{{ $post->replies_count ?? $post->replies->count() }}</td> {{-- Cần withCount('replies') trong Controller --}}
+                                <td class="py-3 px-4 border-b border-gray-200 text-sm">
+                                    <div class="flex space-x-2">
+                                        <a href="{{ route('admin.posts.edit', $post) }}" class="text-yellow-600 hover:text-yellow-800" title="Sửa"><i class="fas fa-edit"></i></a>
+                                        <form action="{{ route('admin.posts.destroy', $post) }}" method="POST" onsubmit="return confirm('Người có chắc chắn muốn xóa bài viết này?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:text-red-800" title="Xóa"><i class="fas fa-trash-alt"></i></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-6">
+                {{ $posts->links() }}
+            </div>
+        @endif
+    </div>
 @endsection

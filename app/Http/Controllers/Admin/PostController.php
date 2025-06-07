@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\Thread; 
-use App\Models\Category; 
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,6 +20,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::with('user', 'thread.category')->paginate(10);
+        Post::with(['user', 'thread.category'])->withCount('replies')->paginate(10);
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -33,10 +35,12 @@ class PostController extends Controller
         $threads = Thread::all(); 
         $categories = Category::all(); 
         $selectedThread = null;
+        Thread::with('user')->get();
+        $users = User::all();
         if ($request->has('thread_id')) {
             $selectedThread = Thread::find($request->thread_id);
         }
-        return view('admin.posts.create', compact('threads', 'categories', 'selectedThread'));
+        return view('admin.posts.create', compact('threads', 'categories', 'selectedThread', 'users'));
     }
 
     public function store(Request $request)
@@ -59,7 +63,8 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $threads = Thread::all(); 
-        return view('admin.posts.edit', compact('post', 'threads'));
+        $users = User::all();
+        return view('admin.posts.edit', compact('post', 'threads', 'users'));
     }
 
     public function update(Request $request, Post $post)

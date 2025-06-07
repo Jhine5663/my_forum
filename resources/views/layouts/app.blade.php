@@ -1,148 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Game 2D Forum')</title>
-    {{-- Xóa <script src="https://cdn.tailwindcss.com"></script> nếu còn --}}
+    <title>@yield('title', '2D Game Hub - Diễn đàn game 2D')</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     @vite(['resources/js/app.js', 'resources/css/app.css'])
-    <style>
-        /* @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;500;700&display=swap'); */
-        body {
-            font-family: 'Poppins', sans-serif; /* Phông chữ chính hỗ trợ tiếng Việt */
-            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%); /* Nền sáng hơn */
-            color: #1e293b; /* Màu chữ mặc định tối */
-        }
-        .pixel-font { 
-            font-family: 'Press Start 2P', cursive;
-        }
-        /* Các style khác của Người */
-        .sidebar {
-            scrollbar-width: thin;
-            scrollbar-color: #3b82f6 #bfdbfe;
-            background: rgba(255, 255, 255, 0.95); /* Nền sidebar trắng hơn */
-            backdrop-filter: blur(8px);
-            border: 2px solid #93c5fd;
-            border-radius: 10px;
-            max-height: calc(100vh - 100px);
-            overflow-y: auto;
-        }
-        .sidebar::-webkit-scrollbar { width: 8px; }
-        .sidebar::-webkit-scrollbar-track { background: #bfdbfe; }
-        .sidebar::-webkit-scrollbar-thumb { background-color: #3b82f6; border-radius: 4px; }
-        .active-nav-link { position: relative; }
-        .active-nav-link::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -2px;
-            width: 100%;
-            height: 2px;
-            background: #3b82f6;
-            animation: pulse 2s infinite;
-        }
-        .game-card {
-            transition: all 0.4s ease;
-            transform-style: preserve-3d;
-            background: rgba(255, 255, 255, 0.9); /* Nền thẻ sáng */
-            border: 2px solid #93c5fd; /* Viền xanh nhạt */
-            border-radius: 10px;
-            backdrop-filter: blur(4px);
-        }
-        .game-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.08);
-        }
-        .pixel-border {
-            border: 3px solid #93c5fd;
-            box-shadow: 6px 6px 0 rgba(147, 197, 253, 0.2);
-        }
-        .pixel-btn {
-            position: relative;
-            background: #60a5fa;
-            border: 2px solid #93c5fd;
-            border-radius: 6px;
-            padding: 8px 16px;
-            color: #ffffff;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        .pixel-btn:hover {
-            background: #3b82f6;
-            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
-        }
-        @keyframes pulse {
-            0% { opacity: 0.7; }
-            50% { opacity: 1; }
-            100% { opacity: 0.7; }
-        }
-        .glow-text {
-            text-shadow: 0 0 4px rgba(59, 130, 246, 0.2);
-        }
-        .retro-bg {
-            background: repeating-linear-gradient(
-                0deg, #d1e7ff, #d1e7ff 3px, #e0f2fe 3px, #e0f2fe 6px
-            );
-        }
-        .search-bar {
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid #93c5fd;
-            border-radius: 9999px;
-            padding: 8px 16px;
-            transition: all 0.3s ease;
-            color: #1e293b;
-        }
-        .search-bar:focus {
-            box-shadow: 0 0 6px rgba(59, 130, 246, 0.2);
-            border-color: #3b82f6;
-        }
-        .search-bar::placeholder {
-            color: #6b7280;
-        }
-    </style>
+
+    <meta name="description" content="@yield('meta_description', 'Cộng đồng game 2D lớn nhất. Thảo luận, chia sẻ và kết nối với những người đam mê game 2D.')">
+
+    <meta name="keywords" content="@yield('meta_keywords', 'game 2D, indie game, lập trình game, thiết kế game, 2D Game Hub')">
+
+    <meta property="og:title" content="@yield('og_title', '2D Game Hub - Diễn đàn game 2D')">
+    <meta property="og:description" content="@yield('og_description', 'Cộng đồng game 2D lớn nhất. Thảo luận, chia sẻ và kết nối với những người đam mê game 2D.')">
+    <meta property="og:image" content="@yield('og_image', asset('images/default_forum_og_image.png'))"> 
+    <meta property="og:url" content="{{ request()->fullUrl() }}">
+    <meta property="og:type" content="website"> 
+
+    <meta name="twitter:card" content="summary_large_image">
+    {{-- <meta name="twitter:site" content="@yourtwitterhandle"> --}}
+    {{-- <meta name="twitter:creator" content="@yourtwitterhandle"> --}}
+    <meta name="twitter:title" content="@yield('og_title', '2D Game Hub - Diễn đàn game 2D')">
+    <meta name="twitter:description" content="@yield('og_description', 'Cộng đồng game 2D lớn nhất. Thảo luận, chia sẻ và kết nối với những người đam mê game 2D.')">
+    <meta name="twitter:image" content="@yield('og_image', asset('images/default_forum_og_image.png'))">
+
 </head>
-<body class="min-h-screen flex flex-col">
-    @include('components.header')
-    <div class="md:hidden bg-white/80 px-4 py-3 border-b border-blue-200">
-        <div class="relative">
-            <input type="text" placeholder="Search games..." class="search-bar w-full py-2 px-4 focus:outline-none">
-            <button class="absolute right-3 top-2 text-blue-600 hover:text-blue-800">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-    </div>
-    <div class="flex flex-1 container mx-auto px-6 py-8">
-        @include('components.notification')
-        <aside class="hidden md:block w-80 mr-6 sticky top-6 sidebar">
-            <div class="p-4">
-                <h3 class="font-bold text-lg mb-4 text-blue-800 glow-text">Diễn đàn Game 2D</h3>
-                <x-sidebar /> 
-            </div>
-        </aside>
-        <main class="flex-1">
-            @yield('content')
-        </main>
-    </div>
-    @include('components.footer')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const observerOptions = { threshold: 0.1 };
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = "1";
-                        entry.target.style.transform = "translateY(0) scale(1)";
-                    }
-                });
-            }, observerOptions);
-            document.querySelectorAll('.game-card').forEach(card => {
-                card.style.opacity = "0";
-                card.style.transform = "translateY(20px) scale(0.98)";
-                card.style.transition = "all 0.5s ease";
-                observer.observe(card);
-            });
-        });
-    </script>
+<body class="bg-gray-100 font-sans text-gray-900 min-h-screen flex flex-col">
+    <x-header />
+
+    <main class="flex-1">
+        @yield('content') 
+    </main>
+
+    <x-footer />
+
+    @stack('scripts')
 </body>
 </html>

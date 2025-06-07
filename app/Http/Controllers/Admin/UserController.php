@@ -26,6 +26,14 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
+    public function show(User $user)
+    {
+        $threads = $user->threads()->withCount('posts')->paginate(10);
+        $posts = $user->posts()->withCount('replies')->paginate(10);
+        $replies = $user->replies()->with('post.thread')->paginate(10);
+
+        return view('admin.users.show', compact('user', 'threads', 'posts', 'replies'));
+    }
     public function create()
     {
         return view('admin.users.create');
