@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Admin; 
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Thread; 
-use App\Models\Post;   
-use App\Models\Reply;  
+use App\Models\Thread;
+use App\Models\Post;
+use App\Models\Reply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate; 
-use Illuminate\Validation\Rules\Password; 
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware(['auth', 'admin']); 
+        $this->middleware(['auth', 'admin']);
     }
 
     public function index()
@@ -75,14 +75,14 @@ class UserController extends Controller
         $validated = $request->validate([
             'user_name' => 'required|string|max:255|unique:users,user_name,' . $user->id,
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-            'is_admin' => 'required|boolean',
+            'is_admin' => 'boolean',
             'password' => 'nullable|string|min:6',
         ]);
-
+        $isAdmin = $request->boolean('is_admin');
         $dataToUpdate = [
             'user_name' => $validated['user_name'],
             'email' => $validated['email'],
-            'is_admin' => $validated['is_admin'],
+            'is_admin' => $isAdmin,
         ];
 
         if ($request->filled('password')) {

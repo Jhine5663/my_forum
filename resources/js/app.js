@@ -232,4 +232,25 @@ document.addEventListener('DOMContentLoaded', function() {
         // nên không cần event listener click trực tiếp ở đây để chuyển form.
         // Logic `window.location.href='{{ route('login') }}'` sẽ nằm trong Blade.
     }
+        /*
+    |--------------------------------------------------------------------------
+    | Header User Dropdown (for Desktop & Mobile)
+    |--------------------------------------------------------------------------
+    */
+    const userDropdownButton = document.getElementById('user-dropdown-button');
+    const userDropdownMenu = document.getElementById('user-dropdown-menu');
+
+    if (userDropdownButton && userDropdownMenu) {
+        userDropdownButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // Ngăn sự kiện click lan ra document
+            userDropdownMenu.classList.toggle('hidden');
+        });
+
+        // Đóng dropdown khi click ra ngoài
+        document.addEventListener('click', (e) => {
+            if (!userDropdownMenu.contains(e.target) && !userDropdownButton.contains(e.target)) {
+                userDropdownMenu.classList.add('hidden');
+            }
+        });
+    }
 }); // Kết thúc document.addEventListener('DOMContentLoaded')

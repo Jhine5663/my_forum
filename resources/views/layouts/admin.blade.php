@@ -14,7 +14,9 @@
         <div class="p-4 flex items-center justify-between border-b border-gray-200"> 
             <div class="flex items-center">
                 <i class="fas fa-gamepad text-2xl text-blue-600"></i> 
-                <span class="logo-text ml-3 text-xl font-bold">Game 2D Forum</span>
+                <span class="logo-text ml-3 text-xl font-bold">
+                    <a href="/">Game 2D Forum</a>
+                </span>
             </div>
             <button id="toggle-sidebar" class="text-gray-600 hover:text-blue-600 md:block hidden"> 
                 <i class="fas fa-bars"></i>

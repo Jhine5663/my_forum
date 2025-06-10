@@ -10,8 +10,7 @@
             </div>
 
             <aside class="md:w-1/4 space-y-6">
-                <x-sidebar />
-                @yield('sidebar_specific_content')
+                <x-sidebar/>
             </aside>
         </div>
     </div>

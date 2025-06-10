@@ -8,4 +8,12 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        host: '0.0.0.0', // Hoặc '0.0.0.0' để lắng nghe trên tất cả các địa chỉ IP
+        // Nếu bạn muốn chỉ định cổng, thêm:
+        // port: 5173, // Cổng mặc định của Vite, có thể thay đổi nếu cần
+        hmr: {
+            host: '192.168.1.6', // Địa chỉ IP Wi-Fi của máy chủ 
+        },
+    },
 });

@@ -7,27 +7,24 @@
 | Nó import các lớp cơ bản của Tailwind CSS, các thành phần tùy chỉnh,
 | và các tiện ích.
 |
-| Các style tùy chỉnh (custom CSS) cho ứng dụng cũng được định nghĩa ở đây,
-| hoặc được import từ các tệp riêng biệt để tổ chức tốt hơn.
-|
 */
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 /*
 |--------------------------------------------------------------------------
-| Google Fonts
+| Google Fonts (Đảm bảo đặt ở ĐẦU TỆP CSS này)
 |--------------------------------------------------------------------------
-|
-| Import tất cả các phông chữ từ Google Fonts mà ứng dụng sử dụng.
-| - Poppins: Phông chữ sans-serif chính cho nội dung dễ đọc (hỗ trợ tiếng Việt).
-| - Press Start 2P: Phông chữ pixel cho hiệu ứng retro/game (chủ yếu cho tiêu đề ngắn, tiếng Anh).
-| - Roboto: (Tùy chọn) Có thể dùng làm phông chữ cho khu vực Admin.
-|
 */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;500;700&family=Roboto:wght@400;700&display=swap');
+
+
+/*
+|--------------------------------------------------------------------------
+| Tailwind CSS Base, Components, Utilities (Ngay sau @import)
+|--------------------------------------------------------------------------
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 
 /*
@@ -40,7 +37,7 @@
 */
 body {
     font-family: 'Poppins', sans-serif; /* Phông chữ mặc định cho nội dung chính */
-    /* Màu nền và màu chữ chính sẽ được định nghĩa trực tiếp trong các layouts Blade */
+    /* Màu nền và màu chữ chính sẽ được định nghĩa trực tiếp trong các layouts Blade (ví dụ: bg-gray-100, text-gray-800) */
 }
 
 
@@ -51,6 +48,7 @@ body {
 |
 | Các lớp tiện ích tùy chỉnh và định nghĩa keyframes cho animations.
 | Các style này có thể được sử dụng ở nhiều nơi trong ứng dụng (forum, admin, auth).
+| Tránh định nghĩa lại các class này trong các section cụ thể.
 |
 */
 .pixel-font { 
@@ -81,14 +79,13 @@ body {
     100% { opacity: 0.7; }
 }
 
-/* Base style cho sidebar (nếu Người dùng chung class sidebar cho cả forum và admin) */
+/* Base style cho sidebar (chung cho cả forum và admin nếu dùng cùng class) */
 .sidebar { 
     scrollbar-width: thin;
     scrollbar-color: #3b82f6 #bfdbfe;
-    /* Background, border và các thuộc tính khác sẽ được định nghĩa trong Blade của layout cụ thể */
     backdrop-filter: blur(8px); /* Blur nền */
     border-radius: 10px;
-    max-height: calc(100vh - 100px);
+    max-height: calc(100vh - 100px); /* Đảm bảo chiều cao tối đa */
     overflow-y: auto;
     transition: all 0.3s ease; /* Transition cho sidebar */
 }
@@ -120,6 +117,23 @@ body {
     box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Đổ bóng nhẹ khi hover thẻ bài viết */
 }
 
+/* Thanh tìm kiếm chung */
+.search-bar { 
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #93c5fd;
+    border-radius: 9999px;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+    color: #1e293b;
+}
+.search-bar:focus {
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.2);
+    border-color: #3b82f6;
+}
+.search-bar::placeholder {
+    color: #6b7280;
+}
+
 
 /*
 |--------------------------------------------------------------------------
@@ -147,21 +161,6 @@ body {
         0deg, #d1e7ff, #d1e7ff 3px, #e0f2fe 3px, #e0f2fe 6px
     );
 }
-.search-bar { /* Thanh tìm kiếm */
-    background: rgba(255, 255, 255, 0.9);
-    border: 2px solid #93c5fd;
-    border-radius: 9999px;
-    padding: 8px 16px;
-    transition: all 0.3s ease;
-    color: #1e293b;
-}
-.search-bar:focus {
-    box-shadow: 0 0 6px rgba(59, 130, 246, 0.2);
-    border-color: #3b82f6;
-}
-.search-bar::placeholder {
-    color: #6b7280;
-}
 
 
 /*
@@ -172,7 +171,8 @@ body {
 | Các style dành riêng cho giao diện quản trị viên (Admin Panel).
 |
 */
-.sidebar-collapsed { /* Trạng thái thu gọn của sidebar admin */
+/* Trạng thái thu gọn của sidebar admin */
+.sidebar-collapsed { 
     width: 70px;
 }
 .sidebar-collapsed .sidebar-text {
@@ -184,7 +184,8 @@ body {
 .sidebar-collapsed .nav-item {
     justify-content: center;
 }
-.content-area { /* Khu vực nội dung chính của admin */
+/* Khu vực nội dung chính của admin */
+.content-area {
     transition: all 0.3s ease;
     margin-left: 250px; /* Mặc định là mở */
 }
@@ -194,7 +195,8 @@ body {
 .content-collapsed {
     margin-left: 70px;
 }
-.active-nav { /* Link navigation admin đang hoạt động */
+/* Link navigation admin đang hoạt động */
+.active-nav {
     background-color: #3b82f6; /* Màu xanh của Tailwind blue-600 */
     color: white;
 }
@@ -209,7 +211,7 @@ body {
     .sidebar { /* Responsive cho sidebar admin trên mobile */
         position: fixed; 
         z-index: 1000;
-        left: -100%; /* Mặc định ẩn trên mobile */
+        left: -100%; 
         width: 250px; 
         background-color: white; 
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); 
@@ -218,7 +220,7 @@ body {
         left: 0;
     }
     .content-area {
-        margin-left: 0 !important; /* Trên mobile, nội dung không bị sidebar đẩy */
+        margin-left: 0 !important;
     }
 }
 

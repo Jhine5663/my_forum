@@ -30,7 +30,7 @@ class DashboardController extends Controller
         $recentPosts = Post::with(['user', 'thread.category'])->latest()->take(5)->get();
 
         // New Members 
-        $newMembers = User::latest()->take(3)->get();
+        $newMembers = User::latest()->take(5)->get();
 
         // Recent Reports 
         // $recentReports = Report::with('user')->latest()->take(3)->get();

@@ -1,8 +1,8 @@
 @extends('layouts.forum')
 
-@section('title', 'Hồ sơ của ' . $user->user_name . ' | 2D Game Hub')
-@section('meta_description', 'Tổng quan hoạt động và hồ sơ của ' . $user->user_name . ' trên 2D Game Hub.')
-@section('og_title', 'Hồ sơ của ' . $user->user_name . ' | 2D Game Hub')
+@section('title', 'Hồ sơ của ' . $user->user_name . ' | Game 2D Forum')
+@section('meta_description', 'Tổng quan hoạt động và hồ sơ của ' . $user->user_name . ' trên Game 2D Forum.')
+@section('og_title', 'Hồ sơ của ' . $user->user_name . ' | Game 2D Forum')
 @section('og_image', asset($user->avatar ? 'storage/' . $user->avatar : 'images/default_user_avatar.png'))
 
 @section('forum-content')
@@ -30,7 +30,7 @@
                         <p class="text-gray-600 text-lg mb-1">{{ $user->email }}</p>
                     @endif
                     <p class="text-gray-500 text-sm">Thành viên từ: {{ $user->created_at?->format('d/m/Y') ?? 'Chưa xác định' }}</p>
-                    <p class="text-gray-500 text-sm">Hoạt động cuối: {{ $user->last_seen_at?->diffForHumans() ?? 'Chưa xác định' }}</p>
+                    {{-- <p class="text-gray-500 text-sm">Hoạt động cuối: {{ $user->last_seen_at?->diffForHumans() ?? 'Chưa xác định' }}</p> --}}
                 </div>
             </div>
             
@@ -153,6 +153,3 @@
     </div>
 @endsection
 
-@section('sidebar_specific_content')
-    <x-sidebar />
-@endsection

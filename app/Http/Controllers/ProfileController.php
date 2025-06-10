@@ -105,7 +105,7 @@ class ProfileController extends Controller
             'user_name' => 'required|string|max:255|regex:/^[\p{L}0-9_ ]+$/u|unique:users,user_name,' . $user->id,
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'password' => ['nullable', Password::min(6)], 
-            'avatar' => 'nullable|image|max:2048', // max 2MB, chỉ cho phép ảnh
+            'avatar' => 'nullable|image|max:4096', // max 2MB, chỉ cho phép ảnh
         ]);
 
         $userData = $request->only('user_name', 'email');
