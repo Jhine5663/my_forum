@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="md:w-1/2 flex justify-center">
-                <img src="https://via.placeholder.com/500x300/e0f2fe/1e3c72?text=2D+Game+Hub" alt="Game 2D" class="rounded-lg shadow-xl w-full max-w-md">
+                <img src="{{ asset('storage/images/forum-banner.png') }}" alt="Game 2D" class="rounded-lg shadow-xl w-full max-w-md">
             </div>
         </div>
     </section>
@@ -23,16 +23,16 @@
     <div class="bg-white rounded-lg shadow p-4 mb-6">
         <div class="border-b border-gray-200">
             <nav class="flex -mb-px">
-                <button role="tab" class="py-4 px-6 text-center border-b-2 font-medium text-sm active-tab">
+                <button role="tab" class="btn-pixel py-4 px-6 text-center border-b-2 font-medium text-sm active-tab">
                     <i class="fas fa-comments mr-2"></i>Thảo luận mới
                 </button>
-                <button role="tab" class="py-4 px-6 text-center border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                <button role="tab" class="btn-pixel py-4 px-6 text-center border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
                     <i class="fas fa-fire mr-2"></i>Phổ biến
                 </button>
-                <button role="tab" class="py-4 px-6 text-center border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                <button role="tab" class="btn-pixel py-4 px-6 text-center border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
                     <i class="fas fa-check-circle mr-2"></i>Đã giải quyết
                 </button>
-                <button role="tab" class="py-4 px-6 text-center border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                <button role="tab" class="btn-pixel py-4 px-6 text-center border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
                     <i class="fas fa-star mr-2"></i>Đề xuất
                 </button>
             </nav>
@@ -58,8 +58,8 @@
             @endauth
         </div>
         @auth
-            <button onclick="window.location.href='{{ route('forum.threads.create') }}'" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full ml-2">
-                <i class="fas fa-paper-plane mr-2"></i>Đăng
+            <button onclick="window.location.href='{{ route('forum.threads.create') }}'" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full ml-2 btn-pixel">
+                <i class="fas fa-paper-plane mr-2"></i>
             </button>
         @endauth
     </div>
@@ -76,7 +76,7 @@
                                 <span>{{ $category->name }}</span>
                             </a>
                         </h2>
-                        <a href="{{ route('forum.categories.show', $category) }}" class="text-sm text-blue-600 hover:underline pixel-btn bg-gray-100 px-3 py-1 rounded">
+                        <a href="{{ route('forum.categories.show', $category) }}" class="text-sm text-blue-600 hover:underline btn-pixel bg-gray-100 px-3 py-1 rounded">
                             Xem tất cả <i class="fas fa-arrow-right ml-1"></i>
                         </a>
                     </div>
