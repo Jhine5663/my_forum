@@ -25,7 +25,6 @@ export default {
             },
             fontFamily: {
                 'sans': ['Be Vietnam Pro', 'sans-serif'], // Đảm bảo Be Vietnam Pro là font chính
-                'pixel': ['"Press Start 2P"', 'cursive'], // Định nghĩa font pixel
             }
         },
     },

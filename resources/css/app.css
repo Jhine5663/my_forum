@@ -1,26 +1,26 @@
 /*
 |--------------------------------------------------------------------------
-| resources/css/app.css
+| resources/css/app.css - ĐỒNG BỘ HÓA CHỈ CHO GIAO DIỆN DIỄN ĐÀN (FRONTEND)
 |--------------------------------------------------------------------------
 |
-| Đây là tệp CSS chính của ứng dụng.
-| Nó import các lớp cơ bản của Tailwind CSS, các thành phần tùy chỉnh,
-| và các tiện ích.
+| Tệp CSS chính của ứng dụng. Chỉ chứa các style dành cho giao diện diễn đàn
+| công khai, các thành phần chung và các animation.
+| Đã loại bỏ các style Admin Panel, Auth, và Footer.
+| Màu sắc và logic hiện tại đã được giữ nguyên theo yêu cầu.
 |
 */
 
 /*
 |--------------------------------------------------------------------------
-| Google Fonts (Đảm bảo đặt ở ĐẦU TỆP CSS này)
+| Google Fonts
 |--------------------------------------------------------------------------
 */
-/* Đã thêm Be Vietnam Pro và giữ Press Start 2P cho các yếu tố pixel */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Be+Vietnam+Pro:wght@400;500;700&display=swap');
 
 
 /*
 |--------------------------------------------------------------------------
-| Tailwind CSS Base, Components, Utilities (Ngay sau @import)
+| Tailwind CSS Base, Components, Utilities
 |--------------------------------------------------------------------------
 */
 @tailwind base;
@@ -32,83 +32,57 @@
 |--------------------------------------------------------------------------
 | Global Base Styles
 |--------------------------------------------------------------------------
-|
-| Các style mặc định áp dụng cho toàn bộ thẻ <body> của ứng dụng.
-|
 */
 body {
-    /* Sử dụng Be Vietnam Pro làm font chính cho nội dung có tiếng Việt */
     font-family: 'Be Vietnam Pro', sans-serif;
-    /* Màu nền và màu chữ chính sẽ được định nghĩa trực tiếp trong các layouts Blade */
-    /* ví dụ: <body class="bg-gray-100 text-gray-800"> */
+    background-color: #F8F9FA; /* Nền sáng */
+    color: #212529; /* Chữ tối */
 }
 
-/*
-|--------------------------------------------------------------------------
-| Mobile Menu Specific Styles
-|--------------------------------------------------------------------------
-*/
-.mobile-menu-dark-bg {
-    background-color: #0E3D73; /* Sử dụng màu xanh đậm mới cho nền menu mobile */
-}
-.mobile-menu-border-color {
-    border-color: #0073D0; /* Sử dụng màu xanh lam chủ đạo cho đường viền */
-}
+
 /*
 |--------------------------------------------------------------------------
 | Common Utility Classes & Animations
 |--------------------------------------------------------------------------
 |
-| Các lớp tiện ích tùy chỉnh và định nghĩa keyframes cho animations.
-| Các style này có thể được sử dụng ở nhiều nơi trong ứng dụng.
+| Các lớp tiện ích tùy chỉnh và định nghĩa keyframes cho animations,
+| sử dụng trên nhiều phần của ứng dụng.
 |
 */
 .pixel-font {
-    /* Áp dụng cho các tiêu đề/phần tử cụ thể, KHÔNG dùng cho văn bản dài tiếng Việt */
     font-family: 'Press Start 2P', cursive;
 }
 
 .glow-text {
-    /* Hiệu ứng phát sáng cho chữ, sử dụng màu xanh lam chủ đạo */
-    text-shadow: 0 0 8px rgba(0, 115, 208, 0.4); /* #0073D0 với độ mờ nhẹ */
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.7), 0 0 20px rgba(0, 212, 255, 0.4);
 }
 
-/* Keyframe cho animation pulse (nếu sử dụng cho link active, vv.) */
 @keyframes pulse {
-    0% { opacity: 0.7; }
+    0%, 100% { opacity: 0.7; }
     50% { opacity: 1; }
-    100% { opacity: 0.7; }
 }
 
-/* Keyframe cho animation float (ví dụ: cho các yếu tố trên trang đăng nhập) */
 @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-15px); }
 }
-
 .float-animation {
     animation: float 4s ease-in-out infinite;
 }
 
-/* Keyframe cho animation slideIn (ví dụ: cho form đăng nhập/đăng ký) */
 @keyframes slideIn {
     from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
-
-/* Sử dụng cho các phần tử cần hiệu ứng slide-in khi xuất hiện */
 .slide-in-animation {
-    animation: slideIn 0.5s ease forwards; /* Thêm forwards để giữ trạng thái cuối cùng */
+    animation: slideIn 0.5s ease forwards;
 }
 
-/* Trạng thái ban đầu cho animation của game-card (ẩn và dịch chuyển) */
 .game-card-hidden {
     opacity: 0;
     transform: translateY(20px) scale(0.98);
     transition: all 0.5s ease;
 }
-
-/* Trạng thái hiển thị cho animation của game-card */
 .game-card-visible {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -121,62 +95,47 @@ body {
 |--------------------------------------------------------------------------
 |
 | Các style cho các thành phần UI chung được sử dụng trên nhiều trang.
+| (Ví dụ: btn-pixel, sidebar, nav-link, game-card, search-bar, pixel-border, avatar, dropdown)
 |
 */
 
-/* Style cho nút có hiệu ứng pixel */
-.pixel-btn {
-    position: relative;
-    background: #0073D0; /* Xanh lam chủ đạo */
-    border: 2px solid #0E3D73; /* Xanh lam đậm hơn cho viền */
-    border-radius: 6px;
-    padding: 8px 16px;
-    color: #ffffff;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    /* Có thể thêm font-family: 'Press Start 2P', cursive; nếu muốn nút có font pixel */
-}
-.pixel-btn:hover {
-    background: #0E3D73; /* Xanh lam đậm hơn khi hover */
-    box-shadow: 0 4px 8px rgba(0, 115, 208, 0.3); /* Hiệu ứng đổ bóng phát sáng */
-}
-
-/* Style cho các nút "pixelated" khác */
 .btn-pixel {
-    border: 2px solid #0E3D73; /* Viền pixel màu xanh đậm mới */
-    background-color: #F4F4F4; /* Nền xám nhạt */
-    color: #0E3D73; /* Chữ màu xanh đậm mới */
+    border: 2px solid #0A0A0A;
+    background-color: #E9ECEF;
+    color: #212529;
     padding: 8px 16px;
-    box-shadow: 3px 3px 0 0 #0E3D73; /* Hiệu ứng "nhô ra" */
+    box-shadow: 4px 4px 0 0 #0A0A0A;
     transition: all 0.1s ease-in-out;
-    border-radius: 0; /* Đảm bảo góc vuông */
+    border-radius: 0.5rem;
 }
-
 .btn-pixel:hover {
-    transform: translate(1px, 1px); /* Hiệu ứng "nhấn" vào */
-    box-shadow: 2px 2px 0 0 #0E3D73;
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 0 #0A0A0A;
 }
 
-/* Base style cho sidebar (chung cho cả forum và admin nếu dùng cùng class) */
 .sidebar {
-    scrollbar-width: thin; /* Firefox */
-    scrollbar-color: #0073D0 #DBDBDB; /* Xanh lam và xám nhạt cho scrollbar */
-    backdrop-filter: blur(8px); /* Blur nền */
-    border-radius: 10px;
-    max-height: calc(100vh - 100px); /* Đảm bảo chiều cao tối đa */
+    background: linear-gradient(180deg, #1A202C 0%, #2D3748 100%);
+    color: #ECF0F1;
+    scrollbar-width: thin;
+    scrollbar-color: #6366F1 #1A202C;
+    backdrop-filter: blur(8px);
+    border-radius: 0;
+    max-height: calc(100vh - 0px);
     overflow-y: auto;
-    transition: all 0.3s ease; /* Transition cho sidebar */
+    transition: all 0.3s ease;
 }
-/* Webkit scrollbar styles */
 .sidebar::-webkit-scrollbar { width: 8px; }
-.sidebar::-webkit-scrollbar-track { background: #DBDBDB; }
-.sidebar::-webkit-scrollbar-thumb { background-color: #0073D0; border-radius: 4px; }
+.sidebar::-webkit-scrollbar-track { background: #1A202C; }
+.sidebar::-webkit-scrollbar-thumb { background: #6366F1; border-radius: 4px; }
 
-/* Link navigation đang hoạt động (ví dụ: trong sidebar hoặc header) */
+/* --- Navigation Link Styles --- */
+.nav-link { transition: color 0.3s ease, background-color 0.3s ease; }
+.nav-link:hover { color: #6366F1; background-color: rgba(99, 102, 241, 0.1); }
+
 .active-nav-link {
     position: relative;
-    color: #FFC857 !important; /* Đảm bảo màu chữ của link active là vàng nhấn */
-    font-weight: 700; /* Làm nổi bật chữ của link active */
+    color: #6366F1 !important;
+    font-weight: 700;
 }
 .active-nav-link::after {
     content: '';
@@ -185,381 +144,117 @@ body {
     bottom: -2px;
     width: 100%;
     height: 2px;
-    background: #FFC857; /* Màu vàng nhấn cho link active */
+    background: #6366F1;
     animation: pulse 2s infinite;
 }
 
-/* Style cho các game-card/post-card/thread-card có hiệu ứng hover */
-.game-card:hover {
-    transform: translateY(-5px); /* Hiệu ứng nhấc lên khi hover */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3); /* Đổ bóng mạnh hơn khi hover */
-}
-.post-card:hover {
-    box-shadow: 0 4px 6px rgba(0,0,0,0.15); /* Đổ bóng nhẹ khi hover thẻ bài viết */
-}
+/* --- Game and Post Card Hover Effects --- */
+.game-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); }
+.post-card:hover { box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1); }
 
-/* Thanh tìm kiếm chung */
 .search-bar {
-    background: rgba(255, 255, 255, 0.95); /* Nền trắng hơi mờ */
-    border: 2px solid #0073D0; /* Viền màu xanh lam */
-    border-radius: 9999px; /* rounded-full */
+    background: #F8F9FA;
+    border: 2px solid #CED4DA;
+    border-radius: 9999px;
     padding: 8px 16px;
     transition: all 0.3s ease;
-    color: #0E3D73; /* Chữ màu xanh đậm mới */
+    color: #212529;
 }
-.search-bar:focus {
-    box-shadow: 0 0 6px rgba(0, 115, 208, 0.3); /* Hiệu ứng đổ bóng focus */
-    border-color: #FFC857; /* Viền màu vàng khi focus */
-    outline: none; /* Loại bỏ outline mặc định */
-}
-.search-bar::placeholder {
-    color: #666666; /* Màu placeholder xám */
-}
-/* Màu icon tìm kiếm bên trong search-bar */
-.search-bar-icon {
-    color: #666666; /* Màu xám cho icon mặc định */
-    transition: all 0.2s ease;
-}
-.search-bar-icon:hover {
-    color: #0073D0; /* Xanh lam chủ đạo khi hover */
-}
+.search-bar:focus { box-shadow: 0 0 8px rgba(99, 102, 241, 0.3); border-color: #6366F1; outline: none; }
+.search-bar::placeholder { color: #6C757D; }
+.search-bar-icon { color: #6C757D; transition: all 0.2s ease; }
+.search-bar-icon:hover { color: #6366F1; }
 
-
-/* Style cho các thành phần có viền pixel */
 .pixel-border {
-    border: 2px solid #0E3D73; /* Viền chính màu xanh đậm mới */
+    border: 2px solid #0A0A0A;
     box-shadow:
-        /* Top-left corners */
-        -2px -2px 0 0 #0E3D73,
-        -4px -4px 0 0 #0E3D73,
-        /* Bottom-right corners */
-        2px 2px 0 0 #0E3D73,
-        4px 4px 0 0 #0E3D73;
-    border-radius: 0; /* Đảm bảo các góc vuông */
+        -3px -3px 0 0 #0A0A0A,
+        -6px -6px 0 0 #0A0A0A,
+        3px 3px 0 0 #0A0A0A,
+        6px 6px 0 0 #0A0A0A;
+    border-radius: 0.5rem;
 }
 
-/* Các lớp tùy chỉnh cho Navigation Header */
-.nav-link-hover:hover {
-    color: #FFC857; /* Màu vàng nhấn cho hover */
-}
+/* --- Avatar/User Icon Styles --- */
+.avatar-border { border-color: #6366F1; }
+.avatar-icon-color { color: #6366F1; }
 
-/* Các lớp tùy chỉnh cho Avatar/User Icon */
-.avatar-border {
-    border-color: #FFC857; /* Viền avatar màu vàng nhấn */
-}
-.avatar-icon-color {
-    color: #FFC857; /* Icon avatar mặc định màu vàng nhấn */
-}
+/* --- Dropdown Menu Styles --- */
+.dropdown-menu-border { border-color: #ADB5BD; }
+.dropdown-item-text { color: #212529; }
+.dropdown-item-hover-bg:hover { background-color: #E9ECEF; }
+.dropdown-admin-link { color: #4C51BF; }
+.dropdown-logout-link { color: #DC3545; }
+.dropdown-logout-link:hover { color: #ffffff; background-color: #DC3545; }
 
-/* Các lớp tùy chỉnh cho Dropdown Menu */
-.dropdown-menu-border {
-    border-color: #DBDBDB; /* Viền dropdown màu xám nhạt */
-}
-.dropdown-item-text {
-    color: #0E3D73; /* Chữ xanh đậm mới */
-}
-.dropdown-item-hover-bg:hover {
-    background-color: #F4F4F4; /* Nền xám nhạt khi hover */
-}
-.dropdown-admin-link {
-    color: #0073D0; /* Chữ xanh lam chủ đạo */
-}
-.dropdown-logout-link {
-    color: #E21C34; /* Chữ đỏ lỗi */
-}
-.dropdown-logout-link:hover {
-    color: #ffffff; /* Chữ trắng khi hover nút đăng xuất */
-    background-color: #E21C34; /* Nền đỏ khi hover nút đăng xuất */
-}
-/*
-|--------------------------------------------------------------------------
-| Footer Specific Styles
-|--------------------------------------------------------------------------
-*/
-.footer-dark-bg {
-    background-color: #0E3D73; /* Sử dụng màu xanh đậm mới cho nền footer */
-    /* Có thể thêm nền pixel nhẹ nhàng hơn cho footer nếu muốn */
-    /* background: repeating-linear-gradient(
-        0deg,
-        #0E3D73,
-        #0E3D73 2px,
-        #00569E 2px,   Màu xanh lam đậm hơn một chút
-        #00569E 4px
-    ); */
-}
+/* --- Mobile Menu Styles --- */
+#mobile-menu { transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); background: #1A202C; }
+.mobile-menu-link { color: #ECF0F1; transition: color 0.3s ease; }
+.mobile-menu-link:hover { color: #6366F1; }
+.mobile-menu-border-color { border-color: rgba(255, 255, 255, 0.2); }
 
-.footer-text-color {
-    color: #F4F4F4; /* Màu chữ sáng trên nền tối */
-}
-
-.footer-heading-color {
-    color: #FFC857; /* Màu vàng nhấn cho tiêu đề */
-}
-
-.footer-link-color {
-    color: #BDE0D1; /* Màu xanh lục nhạt cho link mặc định */
-    transition: color 0.3s ease;
-}
-
-.footer-link-color:hover {
-    color: #FFC857; /* Vàng nhấn khi hover */
-}
-
-.footer-social-icon-bg {
-    background-color: #0073D0; /* Xanh lam chủ đạo cho nền icon mạng xã hội */
-    transition: background-color 0.3s ease;
-}
-
-.footer-social-icon-bg:hover {
-    /* Các màu hover cụ thể cho từng icon sẽ được đặt trong HTML */
-}
-
-.footer-input {
-    background-color: #00569E; /* Nền xanh lam đậm hơn cho input */
-    border: 1px solid #0073D0; /* Viền xanh lam chủ đạo */
-    color: #F4F4F4; /* Chữ trắng sáng */
-}
-
-.footer-input::placeholder {
-    color: rgba(244, 244, 244, 0.7); /* Placeholder hơi mờ */
-}
-
-.footer-subscribe-btn {
-    background-color: #FF8C42; /* Màu cam sáng cho nút đăng ký */
-    transition: background-color 0.3s ease;
-}
-
-.footer-subscribe-btn:hover {
-    background-color: #E21C34; /* Đỏ lỗi khi hover (tạo hiệu ứng "nguy hiểm" vui vẻ) */
-}
-
-/* Back to Top button */
-.back-to-top-btn {
-    background-color: #0073D0; /* Xanh lam chủ đạo */
-    color: white;
-    border: 2px solid #0E3D73; /* Viền xanh đậm */
-    box-shadow: 3px 3px 0 0 #0E3D73; /* Hiệu ứng pixel */
-    transition: all 0.1s ease-in-out;
-}
-
-.back-to-top-btn:hover {
-    transform: translate(1px, 1px);
-    box-shadow: 2px 2px 0 0 #0E3D73;
-}
 
 /*
 |--------------------------------------------------------------------------
 | Forum Specific Styles (Frontend)
 |--------------------------------------------------------------------------
-|
-| Các style dành riêng cho giao diện diễn đàn công khai.
-|
 */
-/* ==================================== */
-/* Nền và Hiệu ứng Tổng thể             */
-/* ==================================== */
 
 /* Nền gradient cho Header của forum */
-/* Sử dụng gradient với hai màu xanh đậm, tạo cảm giác chuyên nghiệp và sâu sắc. */
 .gradient-bg {
-    /* Đổi màu để gradient nổi bật hơn, tạo cảm giác năng động */
-    background: linear-gradient(135deg, #0A2E5B 0%, #00427A 100%);
-    /* Từ xanh lam đậm hơn đến xanh dương sâu thẳm */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Tăng đổ bóng để nổi bật hơn */
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 33%, rgba(0, 212, 255, 1) 100%);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Nền retro với các sọc lặp lại */
-/* Tạo hiệu ứng sọc ngang cổ điển, thích hợp cho các khu vực phụ trợ hoặc nổi bật. */
-.retro-bg {
-    background: repeating-linear-gradient(
-        0deg,
-        #C0C0C0,    /* Xám bạc */
-        #C0C0C0 4px, /* Độ dày sọc xám bạc */
-        #E0E0E0 4px, /* Xám nhạt hơn */
-        #E0E0E0 8px  /* Độ dày sọc xám nhạt hơn */
-    );
-    /* Tăng độ tương phản giữa các sọc để hiệu ứng rõ nét hơn. */
-    /* Bạn có thể thử các màu như: #A0A0A0 và #D0D0D0 */
-}
-
-/* Nền pixel cho header hoặc các phần tử đặc biệt */
-/* Tạo hiệu ứng pixel độc đáo với các sọc chéo, mang lại sự năng động và nổi bật. */
-.pixel-tertiary-bg {
-    background: repeating-linear-gradient(
-        45deg,          /* Góc của các sọc pixel */
-        #2EDC8C,        /* Màu xanh lục tươi sáng */
-        #2EDC8C 6px,    /* Màu này kéo dài 6px */
-        #6EEAA5 6px,    /* Chuyển sang màu xanh lá cây nhạt hơn, tạo độ bóng/sáng */
-        #6EEAA5 12px    /* Màu xanh lá cây nhạt hơn kéo dài đến 12px */
-    );
-    /* Tăng kích thước "pixel" và làm rõ các màu để hiệu ứng mạnh mẽ hơn. */
-    /* Thêm một chút đổ bóng bên trong để tạo hiệu ứng 3D nhẹ */
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(0, 0, 0, 0.2); /* Đường viền rõ ràng hơn */
-}
-
-/* ==================================== */
-/* Các thành phần Tương tác             */
-/* ==================================== */
-
-/* Hover cho tag danh mục */
-/* Khi di chuột qua tag, màu nền và chữ sẽ thay đổi, tạo hiệu ứng tương tác rõ ràng và nổi bật. */
 .category-tag:hover {
-    background-color: #008CFF; /* Màu xanh dương rực rỡ khi hover */
-    color: #ffffff;            /* Chữ màu trắng */
+    background-color: #6366F1;
+    color: #ffffff;
     transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Tăng đổ bóng khi hover */
-    transform: translateY(-2px); /* Di chuyển nhẹ lên trên để tạo hiệu ứng "nhấn" */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
+    transform: translateY(-3px);
 }
 
-/* Tab điều hướng đang hoạt động */
-/* Đánh dấu tab đang hoạt động bằng đường viền dưới màu vàng nổi bật và chữ màu xanh. */
 .active-tab {
-    border-bottom: 4px solid #FFD700; /* Màu vàng kim loại, dày hơn (4px) */
-    color: #0066CC;                 /* Chữ màu xanh lam đậm hơn */
-    font-weight: bold;              /* In đậm chữ */
-    padding-bottom: 6px;            /* Tăng khoảng trống cho đường viền */
-    /* Thêm hiệu ứng lấp lánh nhẹ cho đường viền */
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+    border-bottom: 4px solid #6366F1;
+    color: #212529;
+    font-weight: bold;
+    padding-bottom: 6px;
+    text-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
 }
+/*
+|--------------------------------------------------------------------------
+| Header & Navigation Styles
+|--------------------------------------------------------------------------
+*/
 
-/* Menu mobile */
-/* Đảm bảo chuyển động mượt mà khi mở/đóng menu mobile. */
-#mobile-menu {
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Sử dụng cubic-bezier cho chuyển động mượt mà và sinh động hơn */
+/* Style cho các link navigation (Desktop và Mobile) */
+.nav-link-hover:hover {
+    color: #6366F1; background-color: rgba(99, 102, 241, 0.1);
 }
 
 /*
 |--------------------------------------------------------------------------
-| Admin Panel Specific Styles (Backend)
+| Footer Specific Styles - ĐÃ THÊM LẠI VÀO ĐÂY
 |--------------------------------------------------------------------------
-|
-| Các style dành riêng cho giao diện quản trị viên (Admin Panel).
-|
 */
-/* Trạng thái thu gọn của sidebar admin */
-.sidebar-collapsed {
-    width: 70px;
+.footer-dark-bg { background-color: #1A202C; }
+.footer-text-color { color: #ECF0F1; }
+.footer-heading-color { color: #6366F1; }
+.footer-link-color { color: #ADB5BD; }
+.footer-link-color:hover { color: #6366F1; }
+.footer-social-icon-bg { background-color: #4C51BF; }
+.footer-social-icon-bg:hover { background-color: #6366F1; }
+.footer-input { background-color: #2D3748; border: 1px solid #4A5568; color: #ECF0F1; }
+.footer-input::placeholder { color: rgba(236, 240, 241, 0.7); }
+.footer-subscribe-btn { background-color: #6366F1; color: #FFFFFF; }
+.footer-subscribe-btn:hover { background-color: #4C51BF; }
+.back-to-top-btn {
+    border: 2px solid #0A0A0A;
+    background-color: #E9ECEF;
+    color: #212529;
+    padding: 8px 16px;
+    box-shadow: 3px 3px 0 0 #0A0A0A;
+    transition: all 0.1s ease-in-out;
+    border-radius: 0.5rem;
 }
-.sidebar-collapsed .sidebar-text {
-    display: none;
-}
-.sidebar-collapsed .logo-text {
-    display: none;
-}
-.sidebar-collapsed .nav-item {
-    justify-content: center;
-}
-/* Khu vực nội dung chính của admin */
-.content-area {
-    transition: all 0.3s ease;
-    margin-left: 250px; /* Mặc định là mở */
-}
-/* Các lớp tiện ích để kiểm soát margin của content-area */
-.content-expanded {
-    margin-left: 250px;
-}
-.content-collapsed {
-    margin-left: 70px;
-}
-/* Link navigation admin đang hoạt động */
-.active-nav {
-    background-color: #0073D0; /* Xanh lam chủ đạo */
-    color: white;
-}
-.active-nav:hover {
-    background-color: #0E3D73 !important; /* Xanh lam đậm hơn khi hover */
-    color: white !important;
-}
-.chart-container { /* Chiều cao cho biểu đồ trong admin dashboard */
-    height: 300px;
-}
-/* Responsive cho sidebar admin trên mobile */
-@media (max-width: 768px) {
-    .sidebar {
-        position: fixed;
-        z-index: 1000;
-        left: -100%; /* Ẩn sidebar ban đầu */
-        width: 250px;
-        background-color: #0E3D73; /* Nền sidebar mobile màu xanh đậm mới */
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Tailwind shadow-md */
-        color: #F4F4F4; /* Chữ sáng trên nền đậm */
-    }
-    .sidebar-open { /* Lớp để hiện sidebar */
-        left: 0;
-    }
-    .content-area {
-        margin-left: 0 !important; /* Loại bỏ margin khi sidebar mở trên mobile */
-    }
-}
-
-
-/*
-|--------------------------------------------------------------------------
-| Auth Specific Styles (Giao diện đăng nhập/đăng ký)
-|--------------------------------------------------------------------------
-|
-| Các style dành riêng cho giao diện xác thực (đăng nhập/đăng ký).
-|
-*/
-/* .toggle-buttons và .toggle-slider */
-.toggle-buttons {
-    position: relative;
-    display: flex;
-    background: #DBDBDB; /* Nền xám nhạt */
-    padding: 4px;
-    border-radius: 9999px; /* rounded-full */
-}
-.toggle-buttons button {
-    position: relative;
-    flex: 1;
-    padding: 8px;
-    border-radius: 9999px; /* rounded-full */
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    z-index: 1;
-    color: #0E3D73; /* Chữ màu xanh đậm mới */
-}
-.toggle-buttons button.active {
-    color: white;
-}
-.toggle-slider {
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    height: calc(100% - 8px);
-    width: calc(50% - 8px); /* Tính toán để phù hợp với 2 nút */
-    background: #0073D0; /* Xanh lam chủ đạo */
-    border-radius: 9999px; /* rounded-full */
-    transition: all 0.3s ease;
-}
-.toggle-slider.right {
-    transform: translateX(calc(100% + 8px)); /* Di chuyển slider sang phải */
-}
-
-/* Custom input focus và error */
-.input-group:focus-within label {
-    color: #0073D0; /* Xanh lam chủ đạo */
-}
-.input-group:focus-within .input-icon {
-    color: #0073D0; /* Xanh lam chủ đạo */
-}
-.input-error {
-    border-color: #E21C34; /* Đỏ cho lỗi */
-}
-
-/* Auth Container: Nền trắng, viền xanh lam, đổ bóng nhẹ */
-.auth-container {
-    background: #ffffff;
-    border: 3px solid #0073D0;
-    border-radius: 12px;
-    box-shadow: 6px 6px 0 rgba(0, 115, 208, 0.2); /* Đổ bóng nhẹ với màu xanh lam */
-    backdrop-filter: blur(6px);
-    padding: 2.5rem;
-    max-width: 500px;
-    width: 100%;
-    margin: 0 auto;
-}
+.back-to-top-btn:hover { box-shadow: 2px 2px 0 0 #0A0A0A; transform: translate(1px, 1px); }

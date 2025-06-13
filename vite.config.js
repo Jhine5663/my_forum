@@ -4,7 +4,11 @@ import laravel from 'laravel-vite-plugin';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
+            input: [
+                'resources/css/app.css',
+                'resources/js/app.js',
+                'resources/css/admin.css',
+                'resources/js/admin.js'],
             refresh: true,
         }),
     ],
@@ -13,7 +17,7 @@ export default defineConfig({
         // Nếu bạn muốn chỉ định cổng, thêm:
         // port: 5173, // Cổng mặc định của Vite, có thể thay đổi nếu cần
         hmr: {
-            host: '192.168.1.5', // Địa chỉ IP Wi-Fi của máy chủ 
+            host: '192.168.1.7', // Địa chỉ IP Wi-Fi của máy chủ 
         },
     },
 });

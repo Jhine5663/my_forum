@@ -1,25 +1,25 @@
-<header class="pixel-tertiary-bg text-white shadow-lg relative overflow-hidden"> {{-- Thay gradient-bg bằng pixel-tertiary-bg --}}
-    {{-- Để tạo hiệu ứng lớp lang, bạn có thể thêm một overlay gradient mờ --}}
-    <div class="absolute inset-0 bg-gradient-to-br from-[#0E3D73]/80 to-[#00569E]/80 z-0"></div> {{-- Lớp phủ gradient mờ --}}
+<header class="pixel-tertiary-bg text-white shadow-lg relative ">
+    {{-- Lớp phủ gradient mờ --}}
+    <div class="absolute inset-0 bg-gradient-to-br from-[rgba(2,0,36,0.8)] to-[rgba(9,9,121,0.8)]"></div>
 
-    <div class="container mx-auto px-4 py-3 relative z-10"> {{-- Đảm bảo nội dung nằm trên lớp phủ --}}
+    <div class="container mx-auto px-4 py-3 relative">
         <div class="flex justify-between items-center">
             {{-- Logo và tiêu đề forum --}}
             <div class="flex items-center space-x-2">
-                <i class="fas fa-gamepad text-2xl avatar-icon-color"></i> 
+                <i class="fas fa-gamepad text-2xl avatar-icon-color"></i>
                 <h1 class="text-2xl font-bold">
-                    <a href="{{ route('forum.index') }}" class="avatar-icon-color nav-link-hover">Game 2D Forum</a>
+                    <a href="{{ route('forum.index') }}" class="avatar-icon-color nav-link-hover">2D Game Hub</a>
                 </h1>
             </div>
 
             {{-- Navigation chính (Desktop) --}}
             <nav class="hidden md:flex space-x-6">
-                <a href="{{ route('forum.index') }}" 
+                <a href="{{ route('forum.index') }}"
                    class="{{ request()->routeIs('forum.index') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Trang chủ</a>
-                
-                <a href="{{ route('forum.threads.index') }}" 
+
+                <a href="{{ route('forum.threads.index') }}"
                    class="{{ request()->routeIs('forum.threads.index') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Diễn đàn</a>
-                
+
                 <a href="#" class="nav-link-hover font-medium">Game mới</a>
                 <a href="#" class="nav-link-hover font-medium">Hướng dẫn</a>
                 <a href="#" class="nav-link-hover font-medium">Tài nguyên</a>
@@ -29,7 +29,7 @@
                 {{-- Thanh tìm kiếm --}}
                 <div class="relative">
                     <input type="text" placeholder="Tìm kiếm..."
-                        class="search-bar pr-10">
+                           class="search-bar pr-10">
                     <button class="absolute right-3 top-1/2 transform -translate-y-1/2 search-bar-icon"
                             aria-label="Nút tìm kiếm">
                         <i class="fas fa-search"></i>
@@ -38,36 +38,39 @@
 
                 @guest
                     <a href="{{ route('login') }}"
-                        class="pixel-btn text-sm">Đăng nhập</a>
+                       class="pixel-btn text-sm">Đăng nhập</a>
                 @else
-                    {{-- Icon avatar --}}
-                    <a href="{{ route('profile.show') }}">
+                    {{-- Avatar người dùng --}}
+                    <a href="{{ route('profile.show') }}" class="block w-9 h-9 rounded-full overflow-hidden border-2 avatar-border">
                         @if (Auth::user()->avatar)
                             <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->user_name }}"
-                                class="w-9 h-9 rounded-full object-cover border-2 avatar-border"> 
+                                class="w-full h-full object-cover">
                         @else
-                            <i class="fas fa-user-circle text-3xl avatar-icon-color"></i> 
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->user_name) }}&background=0073D0&color=FFFFFF&size=36&bold=true"
+                                alt="{{ Auth::user()->user_name }}"
+                                class="w-full h-full object-cover">
                         @endif
                     </a>
 
                     {{-- Dropdown menu cho người dùng đăng nhập --}}
-                    <div class="relative">
+                    {{-- ĐÃ THÊM Z-INDEX CHO CONTAINER CỦA DROPDOWN --}}
+                    <div class="relative"> {{-- Thêm z-20 ở đây --}}
                         <button id="user-dropdown-button"
-                            class="flex items-center space-x-2 focus:outline-none pixel-btn text-sm"
-                            aria-haspopup="true" aria-expanded="false" aria-label="Menu người dùng">
+                                class="flex items-center space-x-2 focus:outline-none pixel-btn text-sm"
+                                aria-haspopup="true" aria-expanded="false" aria-label="Menu người dùng">
                             <span>{{ Str::limit(Auth::user()->user_name, 10) }}</span>
                             <i class="fas fa-chevron-down text-xs"></i>
                         </button>
 
                         <div id="user-dropdown-menu"
-                            class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden border dropdown-menu-border">
+                            class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden border dropdown-menu-border">
                             <a href="{{ route('profile.show') }}"
-                                class="block px-4 py-2 text-sm dropdown-item-text dropdown-item-hover-bg 
+                                class="block px-4 py-2 text-sm dropdown-item-text dropdown-item-hover-bg
                                 {{ request()->routeIs('profile.show') ? 'active-nav-link' : '' }}">
                                 <i class="fas fa-user mr-2"></i> Hồ sơ
                             </a>
                             <a href="{{ route('profile.edit') }}"
-                                class="block px-4 py-2 text-sm dropdown-item-text dropdown-item-hover-bg 
+                                class="block px-4 py-2 text-sm dropdown-item-text dropdown-item-hover-bg
                                 {{ request()->routeIs('profile.edit') ? 'active-nav-link' : '' }}">
                                 <i class="fas fa-cog mr-2"></i> Cài đặt
                             </a>
@@ -75,8 +78,8 @@
                             @if (Auth::user()->is_admin)
                                 <div class="border-t dropdown-menu-border my-1"></div>
                                 <a href="{{ route('admin.dashboard') }}"
-                                    class="block px-4 py-2 text-sm dropdown-admin-link dropdown-item-hover-bg font-medium 
-                                    {{ request()->routeIs('admin.dashboard') ? 'active-nav-link' : '' }}">
+                                    class="block px-4 py-2 text-sm dropdown-admin-link dropdown-item-hover-bg font-medium
+                                    {{ request()->routeIs('admin.dashboard') ? 'active-nav-link' : 'nav-link-hover' }}">
                                     <i class="fas fa-shield-alt mr-2"></i> Trang Admin
                                 </a>
                             @endif
@@ -84,7 +87,7 @@
                             <div class="border-t dropdown-menu-border my-1"></div>
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
-                                <button type="submit" class="w-full text-left px-4 py-2 dropdown-logout-link">
+                                <button type="submit" class="block w-full text-left px-4 py-2 dropdown-logout-link">
                                     <i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất
                                 </button>
                             </form>
@@ -100,15 +103,15 @@
     </div>
 
     {{-- Menu mobile --}}
-    <div id="mobile-menu" class="hidden md:hidden mobile-menu-dark-bg px-4 py-2">
+    <div id="mobile-menu" class="hidden md:hidden mobile-menu-dark-bg px-4 py-2 relative">
         <div class="flex flex-col space-y-3">
             <a href="{{ route('forum.index') }}" class="{{ request()->routeIs('forum.index') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Trang chủ</a>
-            <a href="{{ route('forum.threads.index') }}" class="{{ request()->routeIs('forum.threads.index') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Diễn đàn</a>
-            
-            <a href="#" class="nav-link-hover font-medium">Game mới</a>
-            <a href="#" class="nav-link-hover font-medium">Hướng dẫn</a>
-            <a href="#" class="nav-link-hover font-medium">Tài nguyên</a>
-            
+            <a href="{{ route('forum.threads.index') }}" class="mobile-menu-link {{ request()->routeIs('forum.threads.index') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Diễn đàn</a>
+
+            <a href="#" class="mobile-menu-link font-medium">Game mới</a>
+            <a href="#" class="mobile-menu-link font-medium">Hướng dẫn</a>
+            <a href="#" class="mobile-menu-link font-medium">Tài nguyên</a>
+
             <div class="pt-2 border-t mobile-menu-border-color">
                 <input type="text" placeholder="Tìm kiếm..."
                     class="search-bar w-full">
@@ -118,24 +121,24 @@
                     class="pixel-btn text-sm text-center">Đăng nhập</a>
             @else
                 <div class="flex flex-col space-y-1 pt-2 border-t mobile-menu-border-color">
-                    <a href="{{ route('profile.show') }}" class="dropdown-item-text px-4 py-2 
+                    <a href="{{ route('profile.show') }}" class="px-4 py-2 mobile-menu-link
                         {{ request()->routeIs('profile.show') ? 'active-nav-link' : 'nav-link-hover' }}">
                         <i class="fas fa-user mr-2"></i> Hồ sơ
                     </a>
-                    <a href="{{ route('profile.edit') }}" class="dropdown-item-text px-4 py-2 
+                    <a href="{{ route('profile.edit') }}" class="px-4 py-2 mobile-menu-link
                         {{ request()->routeIs('profile.edit') ? 'active-nav-link' : 'nav-link-hover' }}">
                         <i class="fas fa-cog mr-2"></i> Cài đặt
                     </a>
                     @if (Auth::user()->is_admin)
                         <a href="{{ route('admin.dashboard') }}"
-                            class="dropdown-admin-link font-medium px-4 py-2 
+                            class="px-4 py-2 font-medium mobile-menu-link
                             {{ request()->routeIs('admin.dashboard') ? 'active-nav-link' : 'nav-link-hover' }}">
                             <i class="fas fa-shield-alt mr-2"></i> Trang Admin
                         </a>
                     @endif
                     <form action="{{ route('logout') }}" method="POST" class="w-full">
                         @csrf
-                        <button type="submit" class="w-full text-left px-4 py-2 dropdown-logout-link">
+                        <button type="submit" class="w-full text-left px-4 py-2 mobile-menu-link">
                             <i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất
                         </button>
                     </form>

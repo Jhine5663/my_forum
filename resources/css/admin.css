@@ -1,0 +1,174 @@
+/*
+|--------------------------------------------------------------------------
+| resources/css/admin.css
+|--------------------------------------------------------------------------
+|
+| Tệp CSS dành riêng cho giao diện quản trị (Admin Panel).
+| Bao gồm các lớp Tailwind CSS và các style tùy chỉnh cho khu vực admin.
+|
+*/
+
+/* Google Fonts cho Admin Panel */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'); /* Roboto là font chuyên nghiệp */
+
+
+/* Tailwind CSS Directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+|--------------------------------------------------------------------------
+| Admin Panel Specific Styles
+|--------------------------------------------------------------------------
+|
+| Định nghĩa các lớp CSS tùy chỉnh cho giao diện quản trị viên.
+|
+*/
+
+/* Base styles cho Admin Body */
+body {
+    font-family: 'Roboto', sans-serif; /* Font chính cho admin */
+    background-color: #F3F4F6; /* gray-100 */
+    color: #374151; /* gray-700 */
+}
+
+/* Header/Top Nav */
+.admin-header-bg {
+    background-color: #FFFFFF; /* Nền trắng */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Sidebar */
+#sidebar {
+    background-color: #1F2937; /* gray-800, nền sidebar tối */
+    color: #FFFFFF; /* Chữ trắng */
+    transition: all 0.3s ease; /* Thêm transition để thu gọn mượt mà */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+#sidebar .logo-text {
+    font-family: 'Roboto', cursive; /* Logo admin có thể giữ pixel font */
+    color: #60A5FA; /* blue-400 */
+}
+#sidebar .nav-item { /* Các liên kết trong nav */
+    color: #D1D5DB; /* gray-300 */
+    transition: all 0.2s ease;
+}
+#sidebar .nav-item:hover {
+    background-color: #374151; /* gray-700 */
+    color: #FFFFFF;
+}
+.active-nav { /* Link đang hoạt động */
+    background-color: #3B82F6 !important; /* blue-600 */
+    color: #FFFFFF !important;
+}
+
+/* Sidebar Toggle Animation */
+.sidebar-collapsed {
+    width: 70px;
+}
+.sidebar-collapsed .sidebar-text,
+.sidebar-collapsed .logo-text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: opacity 0.3s ease, width 0.3s ease;
+}
+.sidebar-collapsed .nav-item { justify-content: center; }
+.sidebar-collapsed .nav-item i { margin-right: 0 !important; }
+.sidebar-collapsed .p-4 .flex.items-center.mb-6 { justify-content: center; }
+.sidebar-collapsed .p-4 .flex.items-center.mb-6 img { margin-right: 0 !important; }
+
+/* Content Area Transition */
+#content-area {
+    transition: margin-left 0.3s ease-in-out;
+}
+.content-expanded { margin-left: 256px; } /* Sidebar 256px = w-64 */
+.content-collapsed { margin-left: 70px; }
+
+/* Mobile Responsive Sidebar */
+@media (max-width: 767px) {
+    #sidebar {
+        position: fixed;
+        left: -256px; /* Ẩn hoàn toàn */
+        z-index: 60; /* Trên header chính */
+        width: 256px;
+        background-color: #1F2937; /* Nền tối */
+    }
+    .sidebar-open { transform: translateX(256px); } /* Trượt vào */
+    #content-area { margin-left: 0 !important; }
+    #toggle-sidebar { display: none !important; } /* Nút toggle desktop ẩn */
+    #mobile-sidebar-close { display: block !important; } /* Nút đóng mobile hiện */
+}
+
+/* Admin Dashboard Specific Styles */
+.stat-card-icon {
+    background-color: #EBF8FF; /* blue-50 */
+    color: #2B6CB0; /* blue-700 */
+}
+.stat-card-success { color: #10B981; } /* green-500 */
+.stat-card-warning { color: #F59E0B; } /* yellow-500 */
+.stat-card-danger { color: #EF4444; } /* red-500 */
+
+/* Chart Containers */
+.chart-container { height: 300px; }
+
+/* Table Styles */
+.admin-table-header {
+    background-color: #F9FAFB; /* gray-50 */
+    color: #4B5563; /* gray-700 */
+}
+.admin-table-row:hover {
+    background-color: #F3F4F6; /* gray-100 */
+}
+
+/* Form Styles */
+.admin-input {
+    border: 1px solid #D1D5DB; /* gray-300 */
+    border-radius: 0.375rem; /* rounded-md */
+    padding: 0.5rem 0.75rem; /* py-2 px-3 */
+    width: 100%;
+    color: #1F2937; /* gray-900 */
+}
+.admin-input:focus {
+    border-color: #3B82F6; /* blue-600 */
+    box-shadow: 0 0 0 1px #3B82F6; /* blue-600 ring */
+    outline: none;
+}
+.admin-label {
+    color: #374151; /* gray-700 */
+    font-weight: 600; /* semi-bold */
+}
+.admin-btn-primary {
+    background-color: #3B82F6; /* blue-600 */
+    color: white;
+    transition: background-color 0.2s ease;
+}
+.admin-btn-primary:hover {
+    background-color: #2563EB; /* blue-700 */
+}
+.admin-btn-secondary {
+    background-color: #6B7280; /* gray-500 */
+    color: white;
+    transition: background-color 0.2s ease;
+}
+.admin-btn-secondary:hover {
+    background-color: #4B5563; /* gray-700 */
+}
+.admin-btn-danger {
+    background-color: #EF4444; /* red-500 */
+    color: white;
+    transition: background-color 0.2s ease;
+}
+.admin-btn-danger:hover {
+    background-color: #DC2626; /* red-600 */
+}
+.admin-btn-warning {
+    background-color: #F59E0B; /* yellow-500 */
+    color: white;
+    transition: background-color 0.2s ease;
+}
+.admin-btn-warning:hover {
+    background-color: #D97706; /* yellow-600 */
+}

@@ -186,10 +186,6 @@
                         tất cả</a>
                 </div>
             </div>
-            <div class="p-4 border-t border-gray-200 text-center">
-                <a href="{{ route('admin.users.index') }}" class="text-blue-600 hover:text-blue-800 font-medium">Xem
-                    tất cả</a>
-            </div>
         </div>
     </div>
 
