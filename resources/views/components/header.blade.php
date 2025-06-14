@@ -8,47 +8,53 @@
             <div class="flex items-center space-x-2">
                 <i class="fas fa-gamepad text-2xl avatar-icon-color"></i>
                 <h1 class="text-2xl font-bold">
-                    <a href="{{ route('forum.index') }}" class="avatar-icon-color nav-link-hover">2D Game Hub</a>
+                    <a href="{{ route('forum.index') }}" class="avatar-icon-color nav-link-hover">Game 2D Forum</a>
                 </h1>
             </div>
 
             {{-- Navigation chính (Desktop) --}}
             <nav class="hidden md:flex space-x-6">
                 <a href="{{ route('forum.index') }}"
-                   class="{{ request()->routeIs('forum.index') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Trang chủ</a>
+                    class="{{ request()->routeIs('forum.index') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Trang
+                    chủ</a>
 
                 <a href="{{ route('forum.threads.index') }}"
-                   class="{{ request()->routeIs('forum.threads.index') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Diễn đàn</a>
+                    class="{{ request()->routeIs('forum.threads.index') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Diễn
+                    đàn</a>
 
-                <a href="#" class="nav-link-hover font-medium">Game mới</a>
-                <a href="#" class="nav-link-hover font-medium">Hướng dẫn</a>
-                <a href="#" class="nav-link-hover font-medium">Tài nguyên</a>
+                <a href="{{ route('about') }}"
+                    class="{{ request()->routeIs('about') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Giới
+                    thiệu</a>
+                <a href="{{ route('contact') }}"
+                    class="{{ request()->routeIs('contact') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Liên
+                    hệ</a>
             </nav>
 
             <div class="hidden md:flex items-center space-x-4">
                 {{-- Thanh tìm kiếm --}}
-                <div class="relative">
-                    <input type="text" placeholder="Tìm kiếm..."
-                           class="search-bar pr-10">
-                    <button class="absolute right-3 top-1/2 transform -translate-y-1/2 search-bar-icon"
-                            aria-label="Nút tìm kiếm">
-                        <i class="fas fa-search"></i>
-                    </button>
+                <div class="w-1/3 md:w-1/2">
+                    <form action="{{ route('search.results') }}" method="GET" class="relative">
+                        <input type="search" name="q" placeholder="Tìm kiếm chủ đề, bài viết..."
+                            class="w-full bg-gray-800 text-white placeholder-gray-400 border border-gray-700 rounded-full py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value="{{ request('q') }}">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-gray-400"></i>
+                        </div>
+                    </form>
                 </div>
 
                 @guest
-                    <a href="{{ route('login') }}"
-                       class="pixel-btn text-sm">Đăng nhập</a>
+                    <a href="{{ route('login') }}" class="pixel-btn text-sm">Đăng nhập</a>
                 @else
                     {{-- Avatar người dùng --}}
-                    <a href="{{ route('profile.show') }}" class="block w-9 h-9 rounded-full overflow-hidden border-2 avatar-border">
+                    <a href="{{ route('profile.show') }}"
+                        class="block w-9 h-9 rounded-full overflow-hidden border-2 avatar-border">
                         @if (Auth::user()->avatar)
                             <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->user_name }}"
                                 class="w-full h-full object-cover">
                         @else
                             <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->user_name) }}&background=0073D0&color=FFFFFF&size=36&bold=true"
-                                alt="{{ Auth::user()->user_name }}"
-                                class="w-full h-full object-cover">
+                                alt="{{ Auth::user()->user_name }}" class="w-full h-full object-cover">
                         @endif
                     </a>
 
@@ -56,8 +62,8 @@
                     {{-- ĐÃ THÊM Z-INDEX CHO CONTAINER CỦA DROPDOWN --}}
                     <div class="relative"> {{-- Thêm z-20 ở đây --}}
                         <button id="user-dropdown-button"
-                                class="flex items-center space-x-2 focus:outline-none pixel-btn text-sm"
-                                aria-haspopup="true" aria-expanded="false" aria-label="Menu người dùng">
+                            class="flex items-center space-x-2 focus:outline-none pixel-btn text-sm" aria-haspopup="true"
+                            aria-expanded="false" aria-label="Menu người dùng">
                             <span>{{ Str::limit(Auth::user()->user_name, 10) }}</span>
                             <i class="fas fa-chevron-down text-xs"></i>
                         </button>
@@ -96,7 +102,8 @@
                 @endguest
             </div>
 
-            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none" aria-label="Mở menu di động">
+            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none"
+                aria-label="Mở menu di động">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
@@ -105,27 +112,34 @@
     {{-- Menu mobile --}}
     <div id="mobile-menu" class="hidden md:hidden mobile-menu-dark-bg px-4 py-2 relative">
         <div class="flex flex-col space-y-3">
-            <a href="{{ route('forum.index') }}" class="{{ request()->routeIs('forum.index') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Trang chủ</a>
-            <a href="{{ route('forum.threads.index') }}" class="mobile-menu-link {{ request()->routeIs('forum.threads.index') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Diễn đàn</a>
+            <a href="{{ route('forum.index') }}"
+                class="{{ request()->routeIs('forum.index') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Trang
+                chủ</a>
+            <a href="{{ route('forum.threads.index') }}"
+                class="mobile-menu-link {{ request()->routeIs('forum.threads.index') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Diễn
+                đàn</a>
 
-            <a href="#" class="mobile-menu-link font-medium">Game mới</a>
-            <a href="#" class="mobile-menu-link font-medium">Hướng dẫn</a>
-            <a href="#" class="mobile-menu-link font-medium">Tài nguyên</a>
+            <a href="{{ route('about') }}"
+                class="mobile-menu-link {{ request()->routeIs('about') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Giới
+                thiệu</a>
+            <a href="{{ route('contact') }}"
+                class="mobile-menu-link {{ request()->routeIs('contact') ? 'active-nav-link' : 'nav-link-hover' }} font-medium">Liên
+                hệ</a>
 
             <div class="pt-2 border-t mobile-menu-border-color">
-                <input type="text" placeholder="Tìm kiếm..."
-                    class="search-bar w-full">
+                <input type="text" placeholder="Tìm kiếm..." class="search-bar w-full">
             </div>
             @guest
-                <a href="{{ route('login') }}"
-                    class="pixel-btn text-sm text-center">Đăng nhập</a>
+                <a href="{{ route('login') }}" class="pixel-btn text-sm text-center">Đăng nhập</a>
             @else
                 <div class="flex flex-col space-y-1 pt-2 border-t mobile-menu-border-color">
-                    <a href="{{ route('profile.show') }}" class="px-4 py-2 mobile-menu-link
+                    <a href="{{ route('profile.show') }}"
+                        class="px-4 py-2 mobile-menu-link
                         {{ request()->routeIs('profile.show') ? 'active-nav-link' : 'nav-link-hover' }}">
                         <i class="fas fa-user mr-2"></i> Hồ sơ
                     </a>
-                    <a href="{{ route('profile.edit') }}" class="px-4 py-2 mobile-menu-link
+                    <a href="{{ route('profile.edit') }}"
+                        class="px-4 py-2 mobile-menu-link
                         {{ request()->routeIs('profile.edit') ? 'active-nav-link' : 'nav-link-hover' }}">
                         <i class="fas fa-cog mr-2"></i> Cài đặt
                     </a>

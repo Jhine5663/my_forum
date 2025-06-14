@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class ForumController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth')->except(['index']); 
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth')->except(['index']); 
+    // }
 
     public function index()
     {
@@ -25,6 +25,21 @@ class ForumController extends Controller
         return view('forum.index', [
             'categories' => $categories,
         ]);
+    }
+        /**
+     * Hiển thị trang Giới thiệu.
+     */
+    public function about()
+    {
+        return view('pages.about');
+    }
+
+    /**
+     * Hiển thị trang Liên hệ.
+     */
+    public function contact()
+    {
+        return view('pages.contact');
     }
 
 }

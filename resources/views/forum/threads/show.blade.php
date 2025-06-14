@@ -7,51 +7,44 @@
 
 @section('forum-content')
     <div class="flex-1 p-6">
-        <nav class="text-sm font-semibold mb-4 flex items-center space-x-2 text-gray-600"> 
+        {{-- Breadcrumbs --}}
+        <nav class="text-sm font-semibold mb-4 flex items-center space-x-2 text-gray-600">
             <a href="{{ route('forum.index') }}" class="text-blue-600 hover:text-blue-800"><i class="fas fa-home"></i> Diễn đàn</a>
             <span class="text-gray-500">/</span>
             <a href="{{ route('forum.categories.show', $thread->category) }}" class="text-blue-600 hover:text-blue-800">{{ $thread->category->name }}</a>
             <span class="text-gray-500">/</span>
-            <span class="text-gray-800">{{ Str::limit($thread->title, 50) }}</span> 
+            <span class="text-gray-800">{{ Str::limit($thread->title, 50) }}</span>
         </nav>
-        {{-- aaaaq --}}
-        <div class="bg-white p-6 mb-6 shadow-xl rounded-lg border border-gray-200"> 
+
+        {{-- Hộp thông tin chủ đề --}}
+        <div class="bg-white p-6 mb-6 shadow-xl rounded-lg border border-gray-200">
             <h1 class="text-3xl font-bold text-gray-800 glow-text mb-3">
                 {{ $thread->title }}
             </h1>
-            <div class="flex items-center text-gray-600 text-sm mb-4 space-x-4"> 
+            <div class="flex items-center text-gray-600 text-sm mb-4 space-x-4">
                 <div class="flex items-center">
                     @if($thread->user->avatar)
-                        <img src="{{ asset('storage/' . $thread->user->avatar) }}" alt="{{ $thread->user->user_name }}" class="w-8 h-8 rounded-full mr-2 border-2 avatar-border"> {{-- Viền avatar đồng bộ --}}
+                        <img src="{{ asset('storage/' . $thread->user->avatar) }}" alt="{{ $thread->user->user_name }}" class="w-8 h-8 rounded-full mr-2 border-2 avatar-border">
                     @else
-                        <img src="https://ui-avatars.com/api/?name={{ urlencode($thread->user->user_name) }}&background=090979&color=FFFFFF&size=32&bold=true" {{-- Placeholder màu xanh tím đậm --}}
-                                     alt="{{ $thread->user->user_name }}"
-                                     class="w-8 h-8 rounded-full mr-2 object-cover border-2 avatar-border">
+                        <img src="https://ui-avatars.com/api/?name={{ urlencode($thread->user->user_name) }}&background=090979&color=FFFFFF&size=32&bold=true"
+                             alt="{{ $thread->user->user_name }}"
+                             class="w-8 h-8 rounded-full mr-2 object-cover border-2 avatar-border">
                     @endif
                     <span>Đăng bởi <a href="{{ route('users.profile', $thread->user) }}" class="text-blue-600 hover:underline font-medium">{{ $thread->user->user_name }}</a></span>
                 </div>
                 <span><i class="far fa-clock mr-1"></i> {{ $thread->created_at->diffForHumans() }}</span>
-                <span><i class="fas fa-folder-open mr-1"></i> <a href="{{ route('forum.categories.show', $thread->category) }}" class="text-blue-600 hover:underline">{{ $thread->category->name }}</a></span> {{-- Màu link xanh --}}
+                <span><i class="fas fa-folder-open mr-1"></i> <a href="{{ route('forum.categories.show', $thread->category) }}" class="text-blue-600 hover:underline">{{ $thread->category->name }}</a></span>
             </div>
-
-            @if($thread->posts->isNotEmpty())
-                <div class="text-gray-700 text-base leading-relaxed mt-4 border-t border-gray-200 pt-4"> 
-                    {{-- {!! nl2br(e($thread->posts->first()->content)) !!} --}}
-                </div>
-            @else
-                <p class="text-gray-600 italic">Chủ đề này chưa có bài viết nội dung.</p>
-            @endif
-
             @auth
                 @can('update', $thread)
                     <div class="mt-6 flex space-x-4">
-                        <a href="{{ route('forum.threads.edit', $thread) }}" class="btn-pixel bg-yellow-500 hover:bg-yellow-600 text-white text-sm"> 
+                        <a href="{{ route('forum.threads.edit', $thread) }}" class="btn-pixel bg-yellow-500 hover:bg-yellow-600 text-white text-sm">
                             <i class="fas fa-edit mr-1"></i> Sửa chủ đề
                         </a>
-                        <form action="{{ route('forum.threads.destroy', $thread) }}" method="POST" onsubmit="return confirm('Người có chắc chắn muốn xóa chủ đề này không?');">
+                        <form action="{{ route('forum.threads.destroy', $thread) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa chủ đề này không?');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn-pixel bg-red-500 hover:bg-red-600 text-white text-sm"> 
+                            <button type="submit" class="btn-pixel bg-red-500 hover:bg-red-600 text-white text-sm">
                                 <i class="fas fa-trash-alt mr-1"></i> Xóa chủ đề
                             </button>
                         </form>
@@ -60,17 +53,48 @@
             @endauth
         </div>
 
+        {{-- === PHẦN HIỂN THỊ POST VÀ REPLY ĐÃ ĐƯỢC SỬA LẠI === --}}
         <h2 class="text-xl font-bold text-gray-800 glow-text mb-4 border-b border-gray-200 pb-2">
             Các bài viết và phản hồi
         </h2>
 
         @if ($posts->isEmpty())
-            <p class="text-gray-600 text-center">Chưa có bài viết nào trong chủ đề này. Hãy là người đầu tiên trả lời!</p>
+            <p class="text-gray-600 text-center">Chưa có bài viết nào trong chủ đề này.</p>
         @else
-            <div class="space-y-6">
+            <div class="space-y-8">
                 @foreach ($posts as $post)
-                {{-- Chỗ này có vấn đề --}}
-                    {{-- <x-post-card :post="$post" />  --}}
+                    <div id="post-{{ $post->id }}">
+                        {{-- 1. Hiển thị card cho bài viết chính --}}
+                        <x-post-card :post="$post" />
+
+                        {{-- 2. Hiển thị các phản hồi cho bài viết đó --}}
+                        @if($post->replies->isNotEmpty())
+                            <div class="ml-8 mt-4 space-y-4 border-l-2 border-gray-200 pl-8">
+                                @foreach($post->replies as $reply)
+                                    <x-reply-card :reply="$reply" />
+                                @endforeach
+                            </div>
+                        @endif
+
+                        {{-- 3. Form để trả lời cho bài viết này --}}
+                        @auth
+                            @can('create', \App\Models\Reply::class)
+                                <div class="ml-8 mt-4 pl-8">
+                                    <form action="{{ route('forum.replies.store', ['post' => $post->id]) }}" method="POST" class="bg-gray-50 p-4 rounded-lg border">
+                                        @csrf
+                                        <h5 class="text-base font-semibold text-gray-700 mb-2">Gửi phản hồi của bạn:</h5>
+                                        <x-form-textarea id="comment-{{ $post->id }}" name="comment" rows="2" placeholder="Viết phản hồi..." class="bg-white"></x-form-textarea>
+                                        @error('comment')
+                                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                        @enderror
+                                        <div class="flex justify-end mt-2">
+                                            <x-form-button type="submit" class="btn-pixel bg-blue-600 hover:bg-blue-700 text-white text-sm">Trả lời</x-form-button>
+                                        </div>
+                                    </form>
+                                </div>
+                            @endcan
+                        @endauth
+                    </div>
                 @endforeach
             </div>
 
@@ -78,36 +102,11 @@
                 {{ $posts->links() }}
             </div>
         @endif
+        {{-- === KẾT THÚC PHẦN SỬA LẠI === --}}
 
-        @auth
-            <div class="bg-white p-6 mt-8 shadow-xl rounded-lg border border-gray-200 game-card"> 
-                <h3 class="text-xl font-bold text-gray-800 mb-4">Đăng bài viết mới / Trả lời</h3>
-                <form action="{{ route('forum.posts.store', ['thread' => $thread->id]) }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="thread_id" value="{{ $thread->id }}">
-                    <div class="mb-4">
-                        <x-form-textarea id="content" name="content" rows="6"
-                                         placeholder="Viết bài viết hoặc phản hồi của bạn tại đây..."
-                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-900"></x-form-textarea> {{-- Input sáng hơn --}}
-                        @error('content')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="flex justify-end">
-                        <x-form-button type="submit" class="btn-pixel bg-blue-600 hover:bg-blue-700 text-white">
-                            Đăng bài
-                        </x-form-button>
-                    </div>
-                </form>
-            </div>
-        @else
-            <p class="text-gray-600 text-center mt-8 text-sm">
-                Vui lòng <a href="{{ route('login') }}" class="text-blue-600 hover:underline">đăng nhập</a> để đăng bài viết hoặc phản hồi.
-            </p>
-        @endauth
-
+        {{-- Phần gợi ý bài viết liên quan (giữ nguyên) --}}
         @if($recommendedPosts->isNotEmpty())
-            <div class="mt-8 p-6 bg-white shadow-xl rounded-lg border border-gray-200 game-card"> 
+            <div class="mt-8 p-6 bg-white shadow-xl rounded-lg border border-gray-200 game-card">
                 <h3 class="text-xl font-semibold mb-4 text-gray-800">Bài viết liên quan từ Omnisiah</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     @foreach($recommendedPosts as $recPost)

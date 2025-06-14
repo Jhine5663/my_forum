@@ -2,22 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Import Controllers từ namespace gốc
+// Import Controllers
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
-use App\Http\Controllers\ForumController; 
-use App\Http\Controllers\ProfileController; 
+use App\Http\Controllers\ForumController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\SearchController;
-
-// Import Controllers từ namespace Forum
 use App\Http\Controllers\Forum\CategoryController as ForumCategoryController;
 use App\Http\Controllers\Forum\ThreadController as ForumThreadController;
 use App\Http\Controllers\Forum\PostController as ForumPostController;
 use App\Http\Controllers\Forum\ReplyController as ForumReplyController;
-use App\Http\Controllers\Forum\UserController as ForumUserController; 
-
-// Import Controllers từ namespace Admin
+use App\Http\Controllers\Forum\UserController as ForumUserController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
@@ -25,18 +21,27 @@ use App\Http\Controllers\Admin\ThreadController as AdminThreadController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\ReplyController as AdminReplyController;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\Schedule;
 
 /*
 |--------------------------------------------------------------------------
-| Public Routes (Dành cho người dùng công khai và khách)
+| Public & Auth Routes
 |--------------------------------------------------------------------------
 */
+Artisan::command('inspire', function () {
+    $this->comment(Inspiring::quote());
+})->purpose('Display an inspiring quote');
 
+
+Schedule::command('ml:fetch-trends')->hourly();
 // Trang chủ diễn đàn
 Route::get('/', [ForumController::class, 'index'])->name('forum.index');
+Route::get('/about', [ForumController::class, 'about'])->name('about');
+Route::get('/contact', [ForumController::class, 'contact'])->name('contact');
 
-// Routes xác thực (Đăng ký, Đăng nhập, Đăng xuất)
+// Xác thực (Guest)
 Route::middleware('guest')->group(function () {
     Route::get('/login', [SessionController::class, 'create'])->name('login');
     Route::post('/login', [SessionController::class, 'store'])->name('session.store');
@@ -46,49 +51,19 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [SessionController::class, 'destroy'])->name('logout')->middleware('auth');
 
-// Routes cho Diễn đàn công khai
-Route::prefix('forum')->name('forum.')->group(function () {
-    // Categories công khai
-    Route::get('/categories/{category:slug}', [ForumCategoryController::class, 'show'])->name('categories.show');
-
-    // Threads công khai
-    Route::get('/threads', [ForumThreadController::class, 'index'])->name('threads.index');
-    Route::get('/threads/{thread}', [ForumThreadController::class, 'show'])->name('threads.show');
-
-    // Posts công khai (index và show, nếu có trang riêng cho post)
-    Route::get('/posts', [ForumPostController::class, 'index'])->name('posts.index');
-    Route::get('/posts/{post}', [ForumPostController::class, 'show'])->name('posts.show');
-
-    // Replies công khai (index, nếu có trang riêng cho replies)
-    Route::get('/replies', [ForumReplyController::class, 'index'])->name('replies.index');
-});
-
-// URL: /users/{user} (ví dụ: /users/johndoe)
-Route::get('/users/{user}', [ForumUserController::class, 'show'])->name('users.profile'); 
+// Profile công khai
+Route::get('/users/{user}', [ForumUserController::class, 'show'])->name('users.profile');
 
 // Search và Newsletter
 Route::get('/search', [SearchController::class, 'search'])->name('search.results');
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
+// === PHẦN DIỄN ĐÀN (ĐÃ ĐƯỢC SẮP XẾP LẠI) ===
+Route::prefix('forum')->name('forum.')->group(function () {
 
-/*
-|--------------------------------------------------------------------------
-| Authenticated Routes (Dành cho người dùng đã đăng nhập)
-|--------------------------------------------------------------------------
-*/
-Route::middleware('auth')->group(function () {
-
-    // Profile người dùng của CHÍNH MÌNH
-    Route::prefix('profile')->name('profile.')->group(function () {
-        Route::get('/', [ProfileController::class, 'index'])->name('show');
-        Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
-        Route::put('/update', [ProfileController::class, 'update'])->name('update');
-        Route::get('/threads', [ProfileController::class, 'threads'])->name('threads');
-        Route::get('/replies', [ProfileController::class, 'replies'])->name('replies');
-    });
-
-    Route::prefix('forum')->name('forum.')->group(function () {
-        // Threads
+    // --- CÁC ROUTE CẦN ĐĂNG NHẬP ---
+    Route::middleware('auth')->group(function () {
+        // Route 'create' PHẢI được đặt TRƯỚC route '{thread}'
         Route::get('/threads/create', [ForumThreadController::class, 'create'])->name('threads.create');
         Route::post('/threads', [ForumThreadController::class, 'store'])->name('threads.store');
         Route::get('/threads/{thread}/edit', [ForumThreadController::class, 'edit'])->name('threads.edit')->middleware('can:update,thread');
@@ -108,21 +83,36 @@ Route::middleware('auth')->group(function () {
         Route::delete('/replies/{reply}', [ForumReplyController::class, 'destroy'])->name('replies.destroy')->middleware('can:delete,reply');
     });
 
-    // Routes Machine Learning (Placeholder)
-    // Route::get('/posts/{post}/suggestions', [ForumPostController::class, 'getSuggestions'])->name('posts.suggestions');
+    // --- CÁC ROUTE CÔNG KHAI ---
+    Route::get('/categories/{category:slug}', [ForumCategoryController::class, 'show'])->name('categories.show');
+    Route::get('/threads', [ForumThreadController::class, 'index'])->name('threads.index');
+    // Route chứa tham số {thread} phải được đặt SAU các route cụ thể như /create
+    Route::get('/threads/{thread}', [ForumThreadController::class, 'show'])->name('threads.show');
+
+    // Các route công khai khác cho posts/replies nếu có
+    Route::get('/posts', [ForumPostController::class, 'index'])->name('posts.index');
+    Route::get('/posts/{post}', [ForumPostController::class, 'show'])->name('posts.show');
+    Route::get('/replies', [ForumReplyController::class, 'index'])->name('replies.index');
+});
+
+
+// Profile cá nhân (cần đăng nhập)
+Route::prefix('profile')->name('profile.')->middleware('auth')->group(function () {
+    Route::get('/', [ProfileController::class, 'index'])->name('show');
+    Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
+    Route::put('/update', [ProfileController::class, 'update'])->name('update');
+    Route::get('/threads', [ProfileController::class, 'threads'])->name('threads');
+    Route::get('/replies', [ProfileController::class, 'replies'])->name('replies');
 });
 
 
 /*
 |--------------------------------------------------------------------------
-| Admin Routes (Dành cho quản trị viên)
+| Admin Routes
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
-    // Dashboard Admin
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
-
-    // Resource routes cho các chức năng quản trị
     Route::resource('categories', AdminCategoryController::class);
     Route::resource('users', AdminUserController::class);
     Route::resource('threads', AdminThreadController::class);
