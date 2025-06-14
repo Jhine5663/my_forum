@@ -4,19 +4,18 @@
 @section('meta_description', Str::limit($thread->posts->first()->content ?? $thread->title, 150))
 @section('og_title', $thread->title)
 @section('og_description', Str::limit($thread->posts->first()->content ?? $thread->title, 150))
-{{-- @section('og_image', asset($thread->user->avatar_url ?? 'images/default_user_avatar.png')) --}}
 
 @section('forum-content')
     <div class="flex-1 p-6">
-        <nav class="text-sm font-semibold mb-4 flex items-center space-x-2 text-gray-600"> {{-- Màu chữ xám đậm --}}
+        <nav class="text-sm font-semibold mb-4 flex items-center space-x-2 text-gray-600"> 
             <a href="{{ route('forum.index') }}" class="text-blue-600 hover:text-blue-800"><i class="fas fa-home"></i> Diễn đàn</a>
             <span class="text-gray-500">/</span>
             <a href="{{ route('forum.categories.show', $thread->category) }}" class="text-blue-600 hover:text-blue-800">{{ $thread->category->name }}</a>
             <span class="text-gray-500">/</span>
             <span class="text-gray-800">{{ Str::limit($thread->title, 50) }}</span> 
         </nav>
-
-        <div class="bg-white p-6 mb-6 shadow-xl rounded-lg border border-gray-200 game-card"> 
+        {{-- aaaaq --}}
+        <div class="bg-white p-6 mb-6 shadow-xl rounded-lg border border-gray-200"> 
             <h1 class="text-3xl font-bold text-gray-800 glow-text mb-3">
                 {{ $thread->title }}
             </h1>
@@ -37,7 +36,7 @@
 
             @if($thread->posts->isNotEmpty())
                 <div class="text-gray-700 text-base leading-relaxed mt-4 border-t border-gray-200 pt-4"> 
-                    {!! nl2br(e($thread->posts->first()->content)) !!}
+                    {{-- {!! nl2br(e($thread->posts->first()->content)) !!} --}}
                 </div>
             @else
                 <p class="text-gray-600 italic">Chủ đề này chưa có bài viết nội dung.</p>
@@ -46,7 +45,7 @@
             @auth
                 @can('update', $thread)
                     <div class="mt-6 flex space-x-4">
-                        <a href="{{ route('forum.threads.edit', $thread) }}" class="btn-pixel bg-yellow-500 hover:bg-yellow-600 text-white text-sm"> {{-- Dùng btn-pixel --}}
+                        <a href="{{ route('forum.threads.edit', $thread) }}" class="btn-pixel bg-yellow-500 hover:bg-yellow-600 text-white text-sm"> 
                             <i class="fas fa-edit mr-1"></i> Sửa chủ đề
                         </a>
                         <form action="{{ route('forum.threads.destroy', $thread) }}" method="POST" onsubmit="return confirm('Người có chắc chắn muốn xóa chủ đề này không?');">
@@ -70,7 +69,8 @@
         @else
             <div class="space-y-6">
                 @foreach ($posts as $post)
-                    <x-post-card :post="$post" /> 
+                {{-- Chỗ này có vấn đề --}}
+                    {{-- <x-post-card :post="$post" />  --}}
                 @endforeach
             </div>
 

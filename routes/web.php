@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Route;
 // Import Controllers từ namespace gốc
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
-use App\Http\Controllers\ForumController; // Controller cho trang chủ
-use App\Http\Controllers\ProfileController; // Controller cho hồ sơ người dùng
+use App\Http\Controllers\ForumController; 
+use App\Http\Controllers\ProfileController; 
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\SearchController;
 
@@ -79,7 +79,6 @@ Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])
 Route::middleware('auth')->group(function () {
 
     // Profile người dùng của CHÍNH MÌNH
-    // URL: /profile, /profile/edit, /profile/threads, /profile/replies
     Route::prefix('profile')->name('profile.')->group(function () {
         Route::get('/', [ProfileController::class, 'index'])->name('show');
         Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');

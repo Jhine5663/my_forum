@@ -54,6 +54,3 @@
     </div>
 @endsection
 
-@section('sidebar')
-    <x-sidebar />
-@endsection

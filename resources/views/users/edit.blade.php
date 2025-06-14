@@ -125,7 +125,3 @@
         </form>
     </div>
 @endsection
-
-@section('sidebar_specific_content')
-    <x-sidebar />
-@endsection

@@ -68,10 +68,9 @@
         @endif
     </div>
 
-    @section('sidebar_specific_content') {{-- Đây là section riêng cho nội dung sidebar --}}
-        {{-- Widget Chủ đề Nổi bật từ chuyên mục --}}
-        <div class="bg-white p-4 rounded-lg shadow-md mb-4 border border-blue-200"> {{-- Nền trắng, viền xanh nhạt --}}
-            <h3 class="font-bold text-lg mb-3 text-gray-800 flex items-center"> {{-- Màu chữ đậm --}}
+    {{-- @section('sidebar_specific_content')
+        <div class="bg-white p-4 rounded-lg shadow-md mb-4 border border-blue-200"> 
+            <h3 class="font-bold text-lg mb-3 text-gray-800 flex items-center"> 
                 <i class="fas fa-fire mr-2 text-red-600"></i> Chủ đề Nổi bật từ {{ $category->name }}
             </h3>
             @if(!empty($trendingThreadsInCategory) && $trendingThreadsInCategory->count() > 0)
@@ -89,6 +88,6 @@
                 <p class="text-gray-600 text-sm italic">Chưa có chủ đề nổi bật trong chuyên mục này.</p>
             @endif
         </div>
-    @endsection
+    @endsection --}}
 
 @endsection

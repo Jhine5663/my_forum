@@ -119,21 +119,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Khởi tạo chức năng chuyển đổi tab trong Forum.
-     * Đồng bộ với CSS: chỉ thêm/bỏ class 'active-tab' và các class Tailwind.
      */
     const initForumTabSwitching = () => {
         const tabs = document.querySelectorAll('[role="tab"]');
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
-                // Xóa trạng thái active của tất cả các tab khác
                 tabs.forEach(t => {
                     t.classList.remove('active-tab');
-                    // Đảm bảo các lớp màu sắc không liên quan đến active-tab được quản lý tốt
-                    // ví dụ: t.classList.add('text-gray-500', 'hover:text-gray-700'); nếu cần
                 });
-                // Thêm trạng thái active cho tab hiện tại
                 tab.classList.add('active-tab');
-                // Tùy chỉnh màu sắc dựa vào active-tab trong CSS thay vì thêm/bỏ ở đây
             });
         });
     };

@@ -1,4 +1,3 @@
-{{-- resources/views/components/reply-card.blade.php --}}
 @props(['reply', 'showPostLink' => false])
 
 <div class="bg-gray-700 p-4 rounded-lg border border-blue-600/30">
@@ -27,7 +26,6 @@
         </div>
     @endif
 
-    {{-- Nút hành động cho Reply (Sửa/Xóa) --}}
     @auth
         @can('update', $reply)
             <div class="mt-3 flex space-x-2 text-right justify-end">
