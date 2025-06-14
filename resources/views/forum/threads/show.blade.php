@@ -1,6 +1,6 @@
 @extends('layouts.forum')
 
-@section('title', $thread->title . ' | 2D Game Hub - Diễn đàn game 2D')
+@section('title', $thread->title . ' | Game 2D Forum - Diễn đàn game 2D')
 @section('meta_description', Str::limit($thread->posts->first()->content ?? $thread->title, 150))
 @section('og_title', $thread->title)
 @section('og_description', Str::limit($thread->posts->first()->content ?? $thread->title, 150))

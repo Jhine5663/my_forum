@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin Panel - 2D Game Hub')</title>
+    <title>@yield('title', 'Admin Panel - Game 2D Forum')</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     @vite(['resources/js/admin.js', 'resources/css/admin.css'])
@@ -16,7 +16,7 @@
             <div class="flex items-center">
                 <i class="fas fa-gamepad text-2xl text-blue-400"></i> 
                 <span class="logo-text ml-3 text-xl font-bold">
-                    <a href="{{ route('forum.index') }}" class="text-blue-400">2D Game Hub</a> 
+                    <a href="{{ route('forum.index') }}" class="text-blue-400">Game 2D Forum</a> 
                 </span>
             </div>
             <button id="toggle-sidebar" class="text-gray-400 hover:text-white md:block hidden">
@@ -146,5 +146,7 @@
             @yield('admin-content')
         </main>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+    @stack('scripts')
 </body>
 </html>

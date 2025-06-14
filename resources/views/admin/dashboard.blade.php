@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Bảng điều khiển Admin | 2D Game Hub')
+@section('title', 'Bảng điều khiển Admin | Game 2D Forum')
 
 @section('admin-content')
     <div class="p-6">
@@ -83,8 +83,7 @@
                     </div>
                 </div>
                 <div class="chart-container" style="height: 300px;">
-                    <img src="https://via.placeholder.com/600x300/f0f4f8/1e3c72?text=Hoat+dong+dien+dan"
-                        alt="Activity Chart" class="w-full h-full object-cover rounded">
+                    <canvas id="forumActivityChart"></canvas>
                 </div>
             </div>
 
@@ -99,8 +98,7 @@
                     </div>
                 </div>
                 <div class="chart-container" style="height: 300px;">
-                    <img src="https://via.placeholder.com/600x300/f0f4f8/1e3c72?text=Tang+truong+thanh+vien"
-                        alt="User Growth Chart" class="w-full h-full object-cover rounded">
+                    <canvas id="userGrowthChart"></canvas>
                 </div>
             </div>
         </div>
@@ -166,7 +164,8 @@
                                         alt="{{ $member->user_name }}" class="w-10 h-10 rounded-full mr-3 object-cover"> --}}
 
                                     {{-- Phương án 2 (Thay thế Phương án 1 nếu muốn dùng icon): Icon Font Awesome --}}
-                                    <i class="fas fa-user-circle text-2xl mr-3 text-blue-500 w-10 h-10 flex items-center justify-center"></i>
+                                    <i
+                                        class="fas fa-user-circle text-2xl mr-3 text-blue-500 w-10 h-10 flex items-center justify-center"></i>
                                 @endif
                                 {{-- KẾT THÚC PHẦN HIỂN THỊ AVATAR --}}
 
@@ -248,4 +247,76 @@
         </div>
     </div>
     </div>
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Lấy dữ liệu từ controller đã được chuyển thành JSON an toàn
+                const labels = @json($chartLabels);
+
+                // --- Biểu đồ 1: Tăng trưởng thành viên ---
+                const userGrowthCtx = document.getElementById('userGrowthChart').getContext('2d');
+                const userGrowthChart = new Chart(userGrowthCtx, {
+                    type: 'line', // Loại biểu đồ đường
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Thành viên mới',
+                            data: @json($userGrowthCounts),
+                            borderColor: 'rgba(59, 130, 246, 1)', // Màu xanh dương
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+                // --- Biểu đồ 2: Hoạt động diễn đàn ---
+                const forumActivityCtx = document.getElementById('forumActivityChart').getContext('2d');
+                const forumActivityChart = new Chart(forumActivityCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                                label: 'Chủ đề mới',
+                                data: @json($threadActivityCounts),
+                                borderColor: 'rgba(22, 163, 74, 1)', // Màu xanh lá
+                                backgroundColor: 'rgba(22, 163, 74, 0.1)',
+                                borderWidth: 2,
+                                fill: true,
+                                tension: 0.3
+                            },
+                            {
+                                label: 'Bài viết mới',
+                                data: @json($postActivityCounts),
+                                borderColor: 'rgba(147, 51, 234, 1)', // Màu tím
+                                backgroundColor: 'rgba(147, 51, 234, 0.1)',
+                                borderWidth: 2,
+                                fill: true,
+                                tension: 0.3
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+    @endpush
 @endsection

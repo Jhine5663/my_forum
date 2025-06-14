@@ -1,6 +1,6 @@
 @extends('layouts.forum')
 
-@section('title', 'Tất Cả Chủ đề | 2D Game Hub - Diễn đàn game 2D')
+@section('title', 'Tất Cả Chủ đề | Game 2D Forum - Diễn đàn game 2D')
 @section('meta_description', 'Danh sách các chủ đề thảo luận mới nhất về game 2D và lập trình game.')
 
 @section('forum-content')

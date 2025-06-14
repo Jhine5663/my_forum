@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', '2D Game Hub - Xác thực')</title>
+    <title>@yield('title', 'Game 2D Forum - Xác thực')</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     @vite(['resources/js/app.js', 'resources/css/app.css'])
 
-    <meta name="description" content="@yield('meta_description', 'Đăng nhập hoặc đăng ký tài khoản tại 2D Game Hub - Diễn đàn game 2D.')">
+    <meta name="description" content="@yield('meta_description', 'Đăng nhập hoặc đăng ký tài khoản tại Game 2D Forum - Diễn đàn game 2D.')">
     <meta name="keywords" content="@yield('meta_keywords', 'đăng nhập, đăng ký, tài khoản game 2D, forum')">
-    <meta property="og:title" content="@yield('og_title', 'Xác thực | 2D Game Hub')">
-    <meta property="og:description" content="@yield('og_description', 'Đăng nhập hoặc đăng ký tài khoản tại 2D Game Hub - Diễn đàn game 2D.')">
+    <meta property="og:title" content="@yield('og_title', 'Xác thực | Game 2D Forum')">
+    <meta property="og:description" content="@yield('og_description', 'Đăng nhập hoặc đăng ký tài khoản tại Game 2D Forum - Diễn đàn game 2D.')">
     <meta property="og:image" content="@yield('og_image', asset('images/default_forum_og_image.png'))">
     <meta property="og:url" content="{{ request()->fullUrl() }}">
     <meta property="og:type" content="website">

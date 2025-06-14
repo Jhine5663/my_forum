@@ -1,7 +1,7 @@
 @extends('layouts.forum')
 
-@section('title', 'Sửa Hồ sơ của tôi | 2D Game Hub')
-@section('meta_description', 'Chỉnh sửa thông tin hồ sơ cá nhân của bạn trên 2D Game Hub.')
+@section('title', 'Sửa Hồ sơ của tôi | Game 2D Forum')
+@section('meta_description', 'Chỉnh sửa thông tin hồ sơ cá nhân của bạn trên Game 2D Forum.')
 
 @section('forum-content')
     <div class="p-6 bg-white rounded-lg shadow-md max-w-2xl mx-auto">
