@@ -6,20 +6,20 @@
     'postCount',
     'latestThreads', // Biến này có thể không cần nếu trendingTopics đã thay thế
     'recentSidebarActivities' => collect(), // Hoạt động gần đây của tất cả forum users
-    'trendingTopics' => collect(), // Chủ đề nổi bật (từ ML hoặc latest/most popular threads)
+    'trendingKeywords' => collect(), // Chủ đề nổi bật (từ ML hoặc latest/most popular threads)
     'topMembers' => collect(), // Thành viên tích cực (từ ViewComposer)
     // Các biến khác nếu cần cho sự kiện hoặc game nổi bật
 ])
 
 <div class="space-y-6"> {{-- Khoảng cách giữa các widget --}}
 
-    {{-- Widget Danh mục --}}
+    {{-- Widget Chuyên Mục --}}
     <div class="bg-white p-4 rounded-lg shadow-md border border-blue-200">
         <h3 class="font-bold text-lg mb-4 text-gray-800 flex items-center">
-            <i class="fas fa-tags mr-2 text-blue-600"></i> Danh mục
+            <i class="fas fa-tags mr-2 text-blue-600"></i> Chuyên Mục
         </h3>
         @if ($categories->isEmpty())
-            <p class="text-gray-600 text-sm">Chưa có danh mục nào.</p>
+            <p class="text-gray-600 text-sm">Chưa có Chuyên Mục nào.</p>
         @else
             <ul class="space-y-2">
                 @foreach ($categories as $category)
@@ -37,7 +37,7 @@
         @endif
         <a href="{{ route('forum.index') }}"
             class="w-full text-center text-blue-600 hover:text-blue-800 text-sm font-medium mt-3 block">
-            Xem tất cả danh mục
+            Xem tất cả Chuyên Mục
         </a>
     </div>
 
@@ -84,8 +84,27 @@
         </a>
     </div>
 
-    {{-- Widget Chủ đề nổi bật (từ ML hoặc dữ liệu phổ biến) --}}
-    <div class="bg-white p-4 rounded-lg shadow-md border border-blue-200">
+    {{-- Xu hướng thảo luận (từ ML) --}}
+    <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200">
+        <h3 class="font-bold text-lg mb-4 text-gray-800 flex items-center">
+            <i class="fas fa-chart-line mr-2 text-purple-600"></i> Xu hướng thảo luận
+        </h3>
+        @if (!empty($trendingKeywords))
+            <div class="flex flex-wrap gap-2">
+                @foreach ($trendingKeywords as $trend)
+                    <a href="{{ route('search.results', ['q' => $trend['keyword']]) }}"
+                        class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-1 rounded-full hover:bg-purple-200">
+                        #{{ $trend['keyword'] }}
+                    </a>
+                @endforeach
+            </div>
+        @else
+            <p class="text-gray-600 text-sm italic">Chưa có dữ liệu xu hướng.</p>
+        @endif
+    </div>
+
+    {{-- Chủ đề nổi bật (nhiều bài viết nhất) --}}
+    <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200">
         <h3 class="font-bold text-lg mb-4 text-gray-800 flex items-center">
             <i class="fas fa-fire mr-2 text-red-600"></i> Chủ đề nổi bật
         </h3>
@@ -94,24 +113,17 @@
         @else
             <ul class="space-y-3">
                 @foreach ($trendingTopics as $topic)
-                    <li class="flex items-center space-x-2">
-                        {{-- Icon cho từng loại trending (ví dụ: hot, mới, có giải pháp) --}}
-                        <i class="fas fa-arrow-alt-circle-up text-red-500"></i> {{-- Ví dụ icon phổ biến --}}
-                        <a href="{{ route('forum.threads.show', $topic->id) }}"
-                            class="text-blue-600 hover:underline text-sm font-medium">
-                            {{ Str::limit($topic->title, 50) }}
+                    <li class="flex items-center space-x-3">
+                        <i class="fas fa-arrow-alt-circle-up text-red-500"></i>
+                        <a href="{{ route('forum.threads.show', $topic) }}"
+                            class="text-blue-600 hover:underline text-sm font-medium flex-1">
+                            {{ Str::limit($topic->title, 45) }}
                         </a>
-                        {{-- Có thể hiển thị lượt xem, lượt bình luận --}}
-                        <span class="ml-auto text-gray-500 text-xs">{{ $topic->posts_count ?? $topic->posts->count() }}
-                            bài</span>
+                        <span class="ml-auto text-gray-500 text-xs font-bold">{{ $topic->posts_count }} bài</span>
                     </li>
                 @endforeach
             </ul>
         @endif
-        <a href="{{ route('forum.threads.index') }}"
-            class="w-full text-center text-blue-600 hover:text-blue-800 text-sm font-medium mt-3 block">
-            Xem thêm chủ đề
-        </a>
     </div>
 
     {{-- Widget Thành viên tích cực --}}

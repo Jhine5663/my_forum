@@ -17,7 +17,7 @@ export default defineConfig({
         // Nếu bạn muốn chỉ định cổng, thêm:
         // port: 5173, // Cổng mặc định của Vite, có thể thay đổi nếu cần
         hmr: {
-            host: '192.168.1.5', // Địa chỉ IP Wi-Fi của máy chủ 
+            host: '192.168.222.1', // Địa chỉ IP Wi-Fi của máy chủ 
         },
     },
 });

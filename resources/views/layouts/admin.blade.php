@@ -61,7 +61,7 @@
                 </a>
                 <a href="{{ route('admin.categories.index') }}" class="nav-item flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 {{ request()->routeIs('admin.categories.*') ? 'active-nav' : 'text-gray-300' }}">
                     <i class="fas fa-tags"></i>
-                    <span class="sidebar-text ml-3">Danh mục</span>
+                    <span class="sidebar-text ml-3">Chuyên Mục</span>
                 </a>
                 <a href="#" class="nav-item flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 text-gray-300">
                     <i class="fas fa-gamepad"></i>
